@@ -10,27 +10,54 @@
 <body>
     <div class="outer-container">
         <div class="container">
-            <header>
-                <nav class="navbar">
-                    <div id="menu-toggle" class="menu-icon">☰</div>
-                    <div class="logo">
-                        <img id="logo-img" src="images/Bais-Yisroel-logo.png" alt="Congregation Bais Yisroel">
-                    </div>
-                    <ul class="nav-menu">
-                    <li><a href="index.html" class="nav-button">Home</a></li>
-                    <li class="nav-item dropdown">
-                        <a href="information.html" class="nav-button">Information</a>
+            <header class="site-header">        
+
+            <div class="logo">
+                <img id="logo-img" src="images/Bais-Yisroel-logo.png" alt="Congregation Bais Yisroel">
+            </div>
+
+            <nav class="navbar">
+
+                <div class="menu-icon-container">
+                    <button id="back-button" class="header-back-button mobile-only">&#8592;</button>
+
+                    <div id="menu-toggle" class="menu-icon mobile-only">☰</div>
+                </div>
+                <ul class="nav-menu">
+                    <li>
+                        <a href="index.html" class="nav-button">Home</a>
+                    </li>
+
+                    <li class="nav-item dropdown closed">
+                        <a href="information.html" class="nav-button nav-button-dropdown parent-link">
+                            Information
+                            <span class="arrow">&#9662;</span>
+                        </a>
                         <ul class="dropdown-menu">
-                            <li><a href="dvar.html" class="nav-button-dropdown">Dvar Torahs</a></li>
-                            <li><a href="halachos.html" class="nav-button-dropdown">Halachos</a></li>
+                            <li>
+                                <a href="dvar.html" class="nav-button-dropdown">Dvar Torahs</a>
+                            </li>
+                            <li>
+                                <a href="halachos.html" class="nav-button-dropdown">Halachos</a>
+                            </li>
                         </ul>
-                    </li>                    
-                    <li><a href="community.html" class="nav-button">Community</a></li>
-                    <li><a href="subscribe.html" class="nav-button">Subscribe</a></li>
-                    <li><a href="https://members.baisyisroel.org/payment" class="nav-button">Donate</a></li>
+                    </li>
+
+                    <li>
+                        <a href="community.html" class="nav-button">Community</a>
+                    </li>
+
+                    <li>
+                        <a href="subscribe.html" class="nav-button">Subscribe</a>
+                    </li>
+
+                    <li>
+                        <a href="https://members.baisyisroel.org/payment" class="nav-button">Donate</a>
+                    </li>                
                 </ul>
-                </nav>
-            </header>
+            </nav>
+        </header>
+
         </div>
         
         <div class="separate-subscribe">

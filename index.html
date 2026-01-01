@@ -11,32 +11,57 @@
 <body>
     <div class="outer-container">
 
-        <header>
-            <nav class="navbar">
-                <div id="menu-toggle" class="menu-icon">☰</div>
-                <div class="logo">
-                    <img id="logo-img" src="images/Bais-Yisroel-logo.png" alt="Congregation Bais Yisroel">
+       <header class="site-header">
+        <div class="logo">
+            <img id="logo-img" src="images/Bais-Yisroel-logo.png" alt="Congregation Bais Yisroel">
+        </div>
+        
+
+            <nav class="navbar">        
+                <div class="menu-icon-container">
+                    <button id="back-button" class="header-back-button mobile-only">&#8592;</button>
+
+                    <div id="menu-toggle" class="menu-icon mobile-only">☰</div>
                 </div>
                 <ul class="nav-menu">
-                    <li><a href="index.html" class="nav-button">Home</a></li>
-                    <li class="nav-item dropdown">
-                        <a href="information.html" class="nav-button">Information</a>
+                    <li>
+                        <a href="index.html" class="nav-button">Home</a>
+                    </li>
+
+                    <li class="nav-item dropdown closed">
+                        <a href="information.html" class="nav-button nav-button-dropdown parent-link">
+                            Information
+                            <span class="arrow">&#9662;</span>
+                        </a>
                         <ul class="dropdown-menu">
-                            <li><a href="dvar.html" class="nav-button-dropdown">Dvar Torahs</a></li>
-                            <li><a href="halachos.html" class="nav-button-dropdown">Halachos</a></li>
+                            <li>
+                                <a href="dvar.html" class="nav-button-dropdown">Dvar Torahs</a>
+                            </li>
+                            <li>
+                                <a href="halachos.html" class="nav-button-dropdown">Halachos</a>
+                            </li>
                         </ul>
-                    </li>                    
-                    <li><a href="community.html" class="nav-button">Community</a></li>
-                    <li><a href="subscribe.html" class="nav-button">Subscribe</a></li>
-                    <li><a href="https://members.baisyisroel.org/payment" class="nav-button">Donate</a></li>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="community.html" class="nav-button">Community</a>
+                    </li>
+                    <li>
+                        <a href="subscribe.html" class="nav-button">Subscribe</a>
+                    </li>
+
+                    <li>
+                        <a href="https://members.baisyisroel.org/payment" class="nav-button">Donate</a>
+                    </li>
+
                 </ul>
             </nav>
-        </header>            
+        </header>
+
+          
               
 
         <div class="separate-index">
-
-                
                 <section class="week-schedule">
                     <div class="refresh-image">
                         <div class="left-image">
@@ -44,6 +69,12 @@
                         <a class="link-style" data-folder="Cover Photo"></a>
                         </div>
                     </div>
+                        <!-- <div id="carousel" class="carousel-container">
+                        <button id="prevBtn">&lt;</button>
+                        <div class="carousel-slide">
+                        </div>
+                        <button id="nextBtn">&gt;</button>
+                        </div> -->
                     <h2>This Week: <span id="weekRange">Loading...</span></h2>
 
                     <div class="schedule-details">
@@ -53,12 +84,21 @@
 
                         <p><strong>Early Shacharis:</strong> <span id="earlyMorningShacharis">Loading...</span></p>
                         <p><strong>Shacharis:</strong> <span id="morningShacharis">Loading...</span></p>
+                        
                         <p id="earlyMinchaRow" style="display: none;">
                             <strong>Sunday Early Mincha:</strong> <span id="earlyMincha">Loading...</span>
                         </p>
-                        <p><strong>Weekday Mincha (Sun-Thu):</strong> <span id="weekdayMinchaMaariv">Loading...</span></p>
+                        <p>
+                        <strong>Weekday Mincha (Sun-Thu):</strong>
+                            <span id="weekdayMinchaMaariv">Loading...</span>
+                            <button id="manualOverrideBtn">Set Manual Time</button>
+                        </p>
+                        <p><strong>Weekday Maariv (Sun-Thu):</strong> <span id="weekdayMinchaMaariv">After Mincha or 8:00 PM</span></p>
+
+
                         <p id="fastStartsRow" style="display: none;"><strong>Fast Starts:</strong> <span id="fastStarts">Loading...</span></p>
                         <p id="fastEndsRow" style="display: none;"><strong>Fast Ends:</strong> <span id="fastEnds">Loading...</span></p>
+
                         <p id="earlyShabbosMinchaRow" style="display:none;"><strong>Early Erev Shabbos Mincha:</strong><span id="earlyShabbosMincha"></span></p>
                         <p id="earlyCandleLightingRow" style="display:none;"><strong>Early Shabbos Candle Lighting:</strong><span id="earlyCandleLighting"></span></p>
 
@@ -106,9 +146,8 @@
         </p>
     </footer>
 
-    <script src="script.js" defer></script>
+    <script src="script.js"></script>
     <script src="navbar.js"></script>
-    <script src="server.js"></script>
 
 </body>
 

@@ -1,6 +1,6 @@
 body {
     font-family: 'Open Sans', sans-serif;
-    background-color: #f4f4f4;
+    background-color: white;
     color: #0D1B2A;
 }
 
@@ -8,37 +8,62 @@ body {
     width: 90%;
     max-width: fit-content;
     margin: 0 auto;
-    background-color: #f4f4f4;
+    background-color: white;
     display: flex;
     flex-wrap: wrap;
-    /* padding-left: 2rem; */
+    padding-top: 140px; /* ⬅ pushes ALL separate-* down */
 }
 
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 2rem;
-}
-
-/* Navbar container */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    background-color: #f4f4f4;
-    border-radius: 5rem;
-    position: sticky;
+.site-header {
+    position: fixed;
     top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* logo left, buttons right */
+    background-color: white;
     z-index: 1000;
-    padding-left: 11rem;
+    padding: 0 2rem;
+}
+
+/* Back button for desktop */
+/* .header-back-button {
+    font-size: 0.9rem;          
+    padding: 0.3rem 0.6rem;    
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    margin-right: 1rem;        
+}
+
+.header-back-button:hover {
+    background-color: #eee;
+} */
+
+.mobile-only {
+    display: none;
 }
 
 /* Logo */
 .logo img {
-    max-width: 10rem;
-    border: 1rem solid #f4f4f4;
+    max-height: 8rem;
+    width: auto;
+}
+
+/* Navbar container - desktop */
+.navbar {
+    display: flex;
+    justify-content: center; /* center the nav items horizontally */
+    align-items: center;
+    padding: 0 2rem;
+    background-color: white;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    padding-right: 17rem;
 }
 
 /* Nav menu */
@@ -52,7 +77,7 @@ header {
 
 .nav-menu li {
     list-style: none;
-    position: relative; /* Needed for dropdown positioning */
+    position: relative;
 }
 
 /* Buttons */
@@ -61,20 +86,22 @@ header {
     color: #415A77;
     font-size: 1.2rem;
     font-weight: bold;
-    padding: 1rem 1rem;
+    padding: 1rem;
     border-radius: .5rem;
     transition: 0.3s ease-in-out;
     display: inline-block;
 }
 
-.nav-button-events-com {
+.nav-button-donate {
+    background-color: #415A77;
+    color: white;
     text-decoration: none;
-    color: #415A77;
     font-size: 1.2rem;
     font-weight: bold;
-    padding: 10px 15px;
-    border-radius: .5px;
+    padding: 1rem;
+    border-radius: .5rem;
     transition: 0.3s ease-in-out;
+    display: inline-block;
 }
 
 /* Dropdown specific */
@@ -91,22 +118,28 @@ header {
     background-color: #0D1B2A;
 }
 
+.nav-button-donate:hover {
+    background-color: #0D1B2A;
+    color: white;
+}
+
 /* Dropdown menu */
 .dropdown-menu {
     list-style: none;
     position: absolute;
-    top: 100%; /* Directly below parent */
+    top: 100%;
     left: 0;
-    background: #f4f4f4;
+    background: white;
     border: 1px solid #ccc;
-    display: none; /* Hidden by default */
     min-width: 180px;
     z-index: 1000;
     border-radius: .5rem;
-    padding: 0;
+    display: none;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    padding: 0.5rem;
 }
 
-/* Dropdown items */
 .dropdown-menu li a {
     padding: 0.8rem 1rem;
     display: block;
@@ -119,40 +152,78 @@ header {
 
 .dropdown-menu li a:hover {
     background-color: #0D1B2A;
-    color: #f4f4f4;
+    color: white;
 }
 
-/* Show dropdown on hover */
-.nav-menu li:hover .dropdown-menu {
+.nav-item.dropdown.open > .dropdown-menu {
     display: block;
 }
 
 .highlighted:hover {
-    color: #f4f4f4;
+    color: white;
     background-color: #0D1B2A;
     border: .3rem solid #0D1B2A;
 }
 
+.hidden {
+  display: none;
+}
+
+/* Mobile navigation */
 @media screen and (max-width: 768px) {
+    /* Hide desktop nav items */
     .nav-menu {
         display: none;
-        flex-direction: column;
-        background: #0D1B2A;
-        position: absolute;
-        top: 60px;
-        right: 0;
-        width: 100%;
-        padding: 1rem;
     }
 
-    .nav-menu.show {
-        display: flex;
+    /* Show mobile buttons */
+    .menu-icon,
+    .header-back-button {
+        display: inline-block;
     }
 
-    .hamburger {
-        display: block;
+    /* Adjust header layout for mobile */
+    .site-header {
+        justify-content: space-between; /* logo left, buttons right */
+        padding: 0.5rem 1rem;
+    }
+
+    /* Mobile hamburger */
+    .menu-icon {
+        font-size: 2rem;
+        cursor: pointer;
+        color: #0D1B2A;
+        padding: 0.4rem 0.8rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: white;
+    }
+
+    .menu-icon:hover {
+        background-color: #415A77;
+        color: white;
+    }
+
+    /* Back button */
+    .header-back-button {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.9rem;
+        font-weight: bold;
+        color: #0D1B2A;
+        background-color: white;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-right: 0.5rem;
+    }
+
+    .header-back-button:hover {
+        background-color: #415A77;
+        color: white;
     }
 }
+
+/* Rest of your original CSS below (unchanged) */
 
 .menu-icon {
     display: none;
@@ -167,8 +238,8 @@ header {
     justify-content: center;
     align-items: center;
     width: 105%;
-    max-height: 350px; /* control vertical size */
-    overflow: hidden;  /* enables horizontal crop */
+    max-height: 350px;
+    overflow: hidden;
 }
 
 .left-image img {
@@ -176,17 +247,14 @@ header {
     height: auto;
     object-fit: cover;
     object-position: center;
-    /* border-radius: 5px; */
-    /* border: 2px solid #0D1B2A; */
 }
-
 
 .week-schedule {
     display: inline-block; 
     padding: 25px;
     height: auto;
     padding-bottom: 2.3rem;
-    background-color: #f4f4f4;
+    background-color: white;
     border: 2px solid #0D1B2A;
     border-radius: 5px;
     margin: 0;
@@ -218,7 +286,6 @@ header {
 .schedule-buttons {
     display: flex;
     flex-direction: column;
-
     gap: 1rem;
 }
 
@@ -240,7 +307,7 @@ header {
 
 .footer {
     margin-top: 4rem;
-    background-color: #f4f4f4;
+    background-color: white;
     color: #0D1B2A;
     text-align: center;
 }
@@ -254,16 +321,15 @@ header {
     display: flex;
     padding-left: 3rem;
     flex-wrap: wrap;
-    /* justify-content: space-between; */
     justify-content: center;
     align-items: stretch;
     gap: 1rem;
 }
 
 .subscribe-form {
-    width: 50rem; /* Set a fixed width */
+    width: 50rem;
     padding: 3rem;
-    background-color: #f4f4f4;
+    background-color: white;
     border: .2rem solid #0D1B2A;
     border-radius: 1rem;
 }
@@ -323,79 +389,41 @@ p.permission {
     background-color: #415A77;
 }
 
-.separate-index {
-    display: flex;
-    justify-content: center;
-    align-items: stretch;
-    gap: 1rem;
-
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
-}
-
-.separate-dvar {
-    display: flex;
-    justify-content: center;
-    align-items: stretch;
-    gap: 1rem;
-
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
-}
-
-
+/* Separate sections */
+.separate-index,
+.separate-info,
+.separate-community,
+.separate-subscribe,
+.separate-events,
+.separate-dvar,
 .separate-halachos {
+    padding-top: 0px;
+}
+
+.separate-dvar, .separate-halachos {
     display: flex;
-    justify-content: center;
     align-items: stretch;
     gap: 1rem;
-
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 1rem;
 }
 
-.separate-community {
+.separate-halachos,
+.separate-community,
+.separate-info,
+.separate-subscribe,
+.separate-events {
     display: flex;
     justify-content: center;
     align-items: stretch;
     gap: 1rem;
-
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 1rem;
 }
-
-.separate-info {
-    display: flex;
-    justify-content: center;
-    align-items: stretch;
-    gap: 1rem;
-
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
-}
-
-.separate-subscribe {
-    display: flex;
-    justify-content: center;
-    align-items: stretch;
-    gap: 1rem;
-
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
-}
-
 
 .about-box {
     border-radius: 2rem;
@@ -406,13 +434,12 @@ p.permission {
 }
 
 .visitors-buttons, .community-buttons,
- .events-buttons, .info-buttons,
- .info-dvar-buttons, .events-dvar-buttons,
- .halachos-dvar-buttons, .shabbos-dvar-buttons {
+.events-buttons, .info-buttons,
+.info-dvar-buttons, .events-dvar-buttons,
+.halachos-dvar-buttons, .shabbos-dvar-buttons {
     flex: 1;
     padding: .5rem;
-    background-color: #f4f4f4;
-    font-size: larger;
+    background-color: white;
     font-size: 5px;
     text-align: center;
 }
@@ -420,7 +447,7 @@ p.permission {
 .about-box, .visitors, .community, .events, .info, .halachos, .shabbos {
     flex: 1;
     padding: 1.5rem;
-    background-color: #f4f4f4;
+    background-color: white;
     border: .2rem solid #0D1B2A;
     border-radius: 1rem;
     font-size: larger;
@@ -428,7 +455,7 @@ p.permission {
 }
 
 .about-box h2, .visitors h2, .community h2,
- .events h2, .info h2, .halachos h2, .shabbos h2 {
+.events h2, .info h2, .halachos h2, .shabbos h2 {
     color: #415A77;
     margin-bottom: 1rem;
     font-size: 2.3rem;
@@ -436,7 +463,7 @@ p.permission {
 }
 
 .community ul, .visitors ul, .events ul,
- .info ul, .halachos ul, .shabbos ul {
+.info ul, .halachos ul, .shabbos ul {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -446,10 +473,10 @@ p.permission {
 }
 
 .community ul li a, .visitors ul li a, .events ul li a,
- .info ul li a, .halachos ul li a, .shabbos ul li a,
- .halachos ul a, .shabbos ul a{
+.info ul li a, .halachos ul li a, .shabbos ul li a,
+.halachos ul a, .shabbos ul a{
     display: block;
-    background-color: #f4f4f4;
+    background-color: white;
     color: #0D1B2A;
     text-decoration: none;
     border-radius: 1rem;
@@ -471,18 +498,9 @@ p.permission {
     flex: 1;
 }
 
-/* .events {
-    padding: 20px;
-    padding-bottom: 47px;
-    padding-top: 25px;
-} */
-/* 
-.break {
-    padding: 10px;
-} */
-
+/* Collapsible sections */
 .collapsible {
-    background-color: #f4f4f4;
+    background-color: white;
     cursor: pointer;
     width: 100%;
     text-align: left;
@@ -509,6 +527,7 @@ p.permission {
     background-color: #f1f1f1;
 }
 
+/* Calendar */
 .week-events {
     padding-left: 5rem;
     width: 30%; 
@@ -517,7 +536,6 @@ p.permission {
 
 .calendar-container {
     width: 100%;
-    /* max-width: 600px; */
     height: 600px;
     border-radius: 5px;
     border: 2px solid #0D1B2A;
@@ -530,8 +548,9 @@ iframe {
     border: 0;
 }
 
+/* Buttons */
 button.link-style {
-    all: unset; /* remove all default button styling */
+    all: unset; 
     color: #0D1B2A;
     font-size: 1.2rem;
     font-weight: bold;
@@ -539,34 +558,35 @@ button.link-style {
     padding: 1rem 1rem;
     border-radius: .5rem;
     transition: 0.3s ease-in-out;
-  }
-  
-  button.link-style:hover {
+}
+
+button.link-style:hover {
     color: white;
     background-color: #415A77;
-  }
-  
-  .button.front {
-    background-color: #415A77; /* no white box */
-    border: none;                  /* remove borders */
-    color: white;                /* match your link/button color */
+}
+
+.button.front {
+    background-color: #415A77; 
+    border: none;                  
+    color: white;                
     font-size: 1.2rem;
     font-weight: bold;
     cursor: pointer;
     padding: 10px 15px;
     border-radius: 5px;
     transition: 0.3s ease-in-out;
-  }
-  
-  .button.front:hover {
+}
+
+.button.front:hover {
     background-color: #0D1B2A;
     color: white;
-  }
-  
+}
+
+/* Spotify & Share embeds */
 .spotify-embed {
     position: relative;
     width: 100%;
-    padding-top: 50%; /* Spotify show embed ratio */
+    padding-top: 50%; 
 }
 
 .spotify-embed iframe {
@@ -578,11 +598,13 @@ button.link-style {
     border: none;
     border-radius: 12px;
 }
+
 .share-embed {
     position: relative;
     width: 100%;
-    padding-bottom: 80%; /* Spotify show embed ratio */
+    padding-bottom: 80%; 
 }
+
 .share-embed iframe {
     position: absolute;
     top: 0;
