@@ -250,4 +250,67 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   });
-  
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const dropdowns = document.querySelectorAll(".nav-item.dropdown");
+
+  dropdowns.forEach((dropdown) => {
+    const parentLink = dropdown.querySelector(".parent-link");
+    const menu = dropdown.querySelector(".dropdown-menu");
+
+    // Initialize menu height for smooth transition
+    menu.style.height = "0px";
+
+    parentLink.addEventListener("click", (e) => {
+      const isOpen = dropdown.classList.contains("open");
+
+      if (!isOpen) {
+        e.preventDefault(); // first tap: open dropdown without navigating
+
+        // Close other dropdowns
+        dropdowns.forEach((other) => {
+          if (other !== dropdown) {
+            other.classList.remove("open");
+            const otherMenu = other.querySelector(".dropdown-menu");
+            otherMenu.style.height = "0px";
+          }
+        });
+
+        // Open this dropdown
+        dropdown.classList.add("open");
+
+        // Set height for animation
+        menu.style.height = menu.scrollHeight + "px";
+      }
+      // ELSE: already open → allow default navigation (do nothing)
+    });
+
+    // Reset height after animation
+    menu.addEventListener("transitionend", () => {
+      if (dropdown.classList.contains("open")) {
+        menu.style.height = "auto";
+      }
+    });
+  });
+});
+
+document.addEventListener("click", (e) => {
+  document.querySelectorAll(".nav-item.dropdown.open").forEach((dropdown) => {
+    if (!dropdown.contains(e.target)) {
+      dropdown.classList.remove("open");
+      dropdown.querySelector(".dropdown-menu").style.height = "0px";
+    }
+  });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const backButton = document.getElementById("back-button");
+
+  if (backButton) {
+    backButton.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.history.back();
+    });
+  }
+});

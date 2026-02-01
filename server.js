@@ -5,10 +5,69 @@ import express from "express";
 import axios from "axios";
 import cors from "cors";
 
+import fs from "fs";
+import path from "path";
+import { parse } from "csv-parse/sync";
+import { stringify } from "csv-stringify/sync";
+
 
 const app = express();
+
+app.set("trust proxy", true);
+
 app.use(cors({ origin: "https://david654100.github.io" }));
 app.use(express.json());
+
+const CSV_PATH = path.join(process.cwd(), "data", "bais_zman_draft_2.csv");
+
+function isAdminIP(req) {
+  const adminIps = (process.env.ADMIN_IPS || "")
+    .split(",")
+    .map(ip => ip.trim());
+
+  const requestIp =
+    req.headers["x-forwarded-for"]?.split(",")[0] ||
+    req.socket.remoteAddress;
+
+  console.log("Request IP:", requestIp);
+
+  return adminIps.includes(requestIp);
+}
+
+// server.js
+app.get("/check-admin", (req, res) => {
+  if (isAdminIP(req)) {
+    res.json({ allowed: true });
+  } else {
+    res.json({ allowed: false });
+  }
+});
+
+app.post("/api/zmanim/override-mincha", (req, res) => {
+  if (!isAdminIP(req)) {
+    return res.status(403).json({ error: "Not authorized" });
+  }
+
+  const { date, time } = req.body;
+  if (!date || !time) {
+    return res.status(400).json({ error: "Missing date or time" });
+  }
+
+  const csvRaw = fs.readFileSync(CSV_PATH, "utf8");
+  const rows = parse(csvRaw, { columns: true });
+
+  const row = rows.find(r => r.engDateString === date);
+  if (!row) {
+    return res.status(404).json({ error: "Date not found in CSV" });
+  }
+
+  row.zmanim_mincha = time;
+
+  const updatedCsv = stringify(rows, { header: true });
+  fs.writeFileSync(CSV_PATH, updatedCsv);
+
+  res.json({ success: true });
+});
 
 app.get("/", (req, res) => {
   res.send("✅ SharePoint file API is alive");
@@ -113,7 +172,53 @@ app.get("/api/sharepoint/recent-file", async (req, res) => {
   }
 });
 
+/* START SERVER */
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-  console.log(`✅ Server listening on http://localhost:${PORT}`);
+  console.log(`✅ Server listening on ${PORT}`);
+});
+
+async function getAllImages(folderPath, accessToken) {
+  let files = [];
+  let url = `https://graph.microsoft.com/v1.0/drives/${process.env.SHAREPOINT_DRIVE_ID}/root:/${encodeURIComponent(folderPath)}:/children`;
+
+  while (url) {
+    const res = await axios.get(url, {
+      headers: { Authorization: `Bearer ${accessToken}` }
+    });
+
+    files.push(...res.data.value);
+    url = res.data["@odata.nextLink"];
+  }
+
+  return files
+    .filter(item =>
+      item.file &&
+      item.name.match(/\.(jpg|jpeg|png|webp)$/i)
+    )
+    .sort(
+      (a, b) =>
+        new Date(b.lastModifiedDateTime) -
+        new Date(a.lastModifiedDateTime)
+    );
+}
+
+app.get("/api/sharepoint/pictures", async (req, res) => {
+  try {
+    const accessToken = await getAccessToken();
+
+    const folderPath = "Pictures"; // EXACT SharePoint folder name
+
+    const images = await getAllImages(folderPath, accessToken);
+
+    const imageUrls = images.map(file => ({
+      name: file.name,
+      url: file["@microsoft.graph.downloadUrl"]
+    }));
+
+    res.json(imageUrls);
+  } catch (err) {
+    console.error("❌ Error fetching images:", err.message);
+    res.status(500).json({ error: err.message });
+  }
 });
