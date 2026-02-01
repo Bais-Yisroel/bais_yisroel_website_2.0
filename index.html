@@ -1,154 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - Congregation Bais Yisroel</title>
+
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="mobile.css" media="screen and (max-width: 768px)">
 </head>
-<body>
-    <div class="outer-container">
 
-       <header class="site-header">
+<body>
+<div class="outer-container">
+
+    <header class="site-header">
         <div class="logo">
             <img id="logo-img" src="images/Bais-Yisroel-logo.png" alt="Congregation Bais Yisroel">
         </div>
-        
 
-            <nav class="navbar">        
-                <div class="menu-icon-container">
-                    <button id="back-button" class="header-back-button mobile-only">&#8592;</button>
-
-                    <div id="menu-toggle" class="menu-icon mobile-only">☰</div>
-                </div>
-                <ul class="nav-menu">
-                    <li>
-                        <a href="index.html" class="nav-button">Home</a>
-                    </li>
-
-                    <li class="nav-item dropdown closed">
-                        <a href="information.html" class="nav-button nav-button-dropdown parent-link">
-                            Information
-                            <span class="arrow">&#9662;</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="dvar.html" class="nav-button-dropdown">Dvar Torahs</a>
-                            </li>
-                            <li>
-                                <a href="halachos.html" class="nav-button-dropdown">Halachos</a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="community.html" class="nav-button">Community</a>
-                    </li>
-                    <li>
-                        <a href="subscribe.html" class="nav-button">Subscribe</a>
-                    </li>
-
-                    <li>
-                        <a href="https://members.baisyisroel.org/payment" class="nav-button">Donate</a>
-                    </li>
-
-                </ul>
-            </nav>
-        </header>
-
-          
-              
-
-        <div class="separate-index">
-                <section class="week-schedule">
-                    <div class="refresh-image">
-                        <div class="left-image">
-                            <img src="images/bais-shul.jpeg" alt="Inside Shul">
-                        <a class="link-style" data-folder="Cover Photo"></a>
-                        </div>
-                    </div>
-                        <!-- <div id="carousel" class="carousel-container">
-                        <button id="prevBtn">&lt;</button>
-                        <div class="carousel-slide">
-                        </div>
-                        <button id="nextBtn">&gt;</button>
-                        </div> -->
-                    <h2>This Week: <span id="weekRange">Loading...</span></h2>
-
-                    <div class="schedule-details">
-                        <p><strong>Today's Date:</strong> <span id="getTodayDate">Loading...</span></p>
-                        <p><strong>Hebrew Date:</strong> <span id="hebrewDate">Loading...</span></p>
-                        <p><strong>This Weeks Parsha:</strong> <span id="parsha">Loading...</span></p>
-
-                        <p><strong>Early Shacharis:</strong> <span id="earlyMorningShacharis">Loading...</span></p>
-                        <p><strong>Shacharis:</strong> <span id="morningShacharis">Loading...</span></p>
-                        
-                        <p id="earlyMinchaRow" style="display: none;">
-                            <strong>Sunday Early Mincha:</strong> <span id="earlyMincha">Loading...</span>
-                        </p>
-                        <p>
-                        <strong>Weekday Mincha (Sun-Thu):</strong>
-                            <span id="weekdayMinchaMaariv">Loading...</span>
-                            <button id="manualOverrideBtn">Set Manual Time</button>
-                        </p>
-                        <p><strong>Weekday Maariv (Sun-Thu):</strong> <span id="weekdayMinchaMaariv">After Mincha or 8:00 PM</span></p>
-
-
-                        <p id="fastStartsRow" style="display: none;"><strong>Fast Starts:</strong> <span id="fastStarts">Loading...</span></p>
-                        <p id="fastEndsRow" style="display: none;"><strong>Fast Ends:</strong> <span id="fastEnds">Loading...</span></p>
-
-                        <p id="earlyShabbosMinchaRow" style="display:none;"><strong>Early Erev Shabbos Mincha:</strong><span id="earlyShabbosMincha"></span></p>
-                        <p id="earlyCandleLightingRow" style="display:none;"><strong>Early Shabbos Candle Lighting:</strong><span id="earlyCandleLighting"></span></p>
-
-                        <p><strong>Erev Shabbos Mincha:</strong> <span id="minchaErevShabbos">Loading...</span></p>
-                        <p><strong>Erev Shabbos Candle Lighting:</strong> <span id="candleLighting">Loading...</span></p>
-
-                        <p id="erevYomtovRow" style="display: none;">
-                        <strong>Erev Yom Tov Candle Lighting / Over:</strong> 
-                        <span id="erevYomtovCandleLighting">Loading...</span> - 
-                        <span id="yomtovEnd">Loading...</span>
-                        </p>
-
-                        <p><strong>Havdalah:</strong> <span id="havdalah">Loading...</span></p>
-                    </div>
-
-                    <div class="schedule-buttons">
-                        <button id="zmanim" class="button front" data-folder="Zmanim">Download Zmanim</button>
-                        <button id="byso" class="button front" data-folder="BYSO">Download Shabbos Observer Weekly Newsletter</button>
-
-                        <a href="https://members.baisyisroel.org/payment.php" target="_blank" class="button front">Donate</a>
-                        <a href="https://members.baisyisroel.org/renovation_campaign_5784" target="_blank" class="button front">Renovation Campaign</a>
-                        
-                        <div id="spinner" style="
-                            display:none;
-                            position:fixed;
-                            top:50%;
-                            left:50%;
-                            transform:translate(-50%, -50%);
-                            z-index:9999;
-                            background-color: rgba(255, 255, 255, 0.8);
-                            padding: 20px;
-                            border-radius: 8px;">
-                                <img src="images/spinny.webp" alt="Loading..." style="width:100px; height:auto;" />
-                            </div>
-                    </div>
-                </section>
-
+        <nav class="navbar">
+            <div class="menu-icon-container">
+                <button id="back-button" class="header-back-button mobile-only">&#8592;</button>
+                <div id="menu-toggle" class="menu-icon mobile-only">☰</div>
             </div>
-    </div>
 
-    <footer class="footer">
-        <p>Congregation Bais Yisroel<br>
-            4221 Sunset Boulevard, Minneapolis, MN 55416<br>
-            Phone Number: (952)-926-7867 || <a href="mailto:office@baisyisroel.org">Office Email</a>
-        </p>
-    </footer>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-button">Home</a></li>
 
-    <script src="script.js"></script>
-    <script src="navbar.js"></script>
+                <li class="nav-item dropdown closed">
+                    <a href="information.html" class="nav-button nav-button-dropdown parent-link">
+                        Information <span class="arrow">&#9662;</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="dvar.html" class="nav-button-dropdown">Dvar Torahs</a></li>
+                        <li><a href="halachos.html" class="nav-button-dropdown">Halachos</a></li>
+                    </ul>
+                </li>
 
+                <li><a href="community.html" class="nav-button">Community</a></li>
+                <li><a href="subscribe.html" class="nav-button">Subscribe</a></li>
+                <li><a href="https://members.baisyisroel.org/payment" class="nav-button">Donate</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="welcome-section">
+
+        <!-- LEFT IMAGE -->
+        <div class="refresh-image">
+            <div class="carousel">
+                <button class="carousel-btn prev">‹</button>
+                <img id="carousel-image" alt="Shul Photos">
+                <button class="carousel-btn next">›</button>
+            </div>
+        </div>
+
+        <!-- RIGHT SCHEDULE -->
+        <section class="week-schedule">
+            <h2>This Week: <span id="weekRange">Loading...</span></h2>
+
+            <div class="schedule-details">
+                <p><strong>Today's Date:</strong> <span id="getTodayDate">Loading...</span></p>
+                <p><strong>Hebrew Date:</strong> <span id="hebrewDate">Loading...</span></p>
+                <p><strong>This Weeks Parsha:</strong> <span id="parsha">Loading...</span></p>
+
+                <p><strong>Early Shacharis:</strong> <span id="earlyMorningShacharis">Loading...</span></p>
+                <p><strong>Shacharis:</strong> <span id="morningShacharis">Loading...</span></p>
+
+                <p id="earlyMinchaRow" style="display:none;">
+                    <strong>Sunday Early Mincha:</strong> <span id="earlyMincha">Loading...</span>
+                </p>
+
+                <p>
+                    <strong>Weekday Mincha (Sun-Thu):</strong>
+                    <span id="weekdayMinchaMaariv">Loading...</span>
+                </p>
+
+                <p><strong>Weekday Maariv (Sun-Thu):</strong> After Mincha or 8:00 PM</p>
+
+                <p id="fastStartsRow" style="display:none;">
+                    <strong>Fast Starts:</strong> <span id="fastStarts">Loading...</span>
+                </p>
+
+                <p id="fastEndsRow" style="display:none;">
+                    <strong>Fast Ends:</strong> <span id="fastEnds">Loading...</span>
+                </p>
+
+                <p id="earlyShabbosMinchaRow" style="display:none;">
+                    <strong>Early Erev Shabbos Mincha:</strong>
+                    <span id="earlyShabbosMincha"></span>
+                </p>
+
+                <p id="earlyCandleLightingRow" style="display:none;">
+                    <strong>Early Shabbos Candle Lighting:</strong>
+                    <span id="earlyCandleLighting"></span>
+                </p>
+
+                <p><strong>Erev Shabbos Mincha:</strong> <span id="minchaErevShabbos">Loading...</span></p>
+                <p><strong>Erev Shabbos Candle Lighting:</strong> <span id="candleLighting">Loading...</span></p>
+
+                <p id="erevYomtovRow" style="display:none;">
+                    <strong>Erev Yom Tov Candle Lighting / Over:</strong>
+                    <span id="erevYomtovCandleLighting">Loading...</span> -
+                    <span id="yomtovEnd">Loading...</span>
+                </p>
+
+                <p><strong>Havdalah:</strong> <span id="havdalah">Loading...</span></p>
+            </div>
+
+            <div class="schedule-buttons">
+                <button id="zmanim" class="button front" data-folder="Zmanim">Download Zmanim</button>
+                <button id="byso" class="button front" data-folder="BYSO">Download Shabbos Observer</button>
+
+                <a href="https://members.baisyisroel.org/payment.php" target="_blank" class="button front">Donate</a>
+                <a href="https://members.baisyisroel.org/renovation_campaign_5784" target="_blank" class="button front">Renovation Campaign</a>
+            </div>
+        </section>
+
+    </section>
+</div>
+
+<footer class="footer">
+    <p>
+        Congregation Bais Yisroel |
+        4221 Sunset Boulevard, Minneapolis, MN 55416<br>
+        Phone: (952)-926-7867 |
+        <a href="mailto:office@baisyisroel.org">Office Email</a>
+    </p>
+</footer>
+
+<script src="script.js"></script>
+<script src="navbar.js"></script>
 </body>
-
 </html>

@@ -304,50 +304,6 @@ document.addEventListener("click", (e) => {
   });
 });
 
-
-// document.addEventListener("DOMContentLoaded", async () => {
-//   const carouselSlide = document.querySelector(".carousel-slide");
-//   const prevBtn = document.getElementById("prevBtn");
-//   const nextBtn = document.getElementById("nextBtn");
-//   let currentIndex = 0;
-//   let images = [];
-
-//   // Fetch images from your backend endpoint
-//   async function fetchImages() {
-//     try {
-//       const response = await fetch('/api/sharepoint/images?folder=Cover%20Photo');
-//       if (!response.ok) throw new Error('Failed to fetch images');
-//       const data = await response.json(); // expect array of { name, url }
-//       images = data;
-//       populateCarousel();
-//     } catch (err) {
-//       console.error(err);
-//     }
-//   }
-
-//   function populateCarousel() {
-//     carouselSlide.innerHTML = images.map(img => `<img src="${img.url}" alt="${img.name}">`).join('');
-//     updateCarousel();
-//   }
-
-//   function updateCarousel() {
-//     const offset = -currentIndex * 100; // percentage-based
-//     carouselSlide.style.transform = `translateX(${offset}%)`;
-//   }
-
-//   prevBtn.addEventListener("click", () => {
-//     currentIndex = (currentIndex - 1 + images.length) % images.length;
-//     updateCarousel();
-//   });
-
-//   nextBtn.addEventListener("click", () => {
-//     currentIndex = (currentIndex + 1) % images.length;
-//     updateCarousel();
-//   });
-
-//   await fetchImages();
-// });
-
 document.addEventListener("DOMContentLoaded", () => {
   const backButton = document.getElementById("back-button");
 
@@ -356,36 +312,5 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       window.history.back();
     });
-  }
-});
-
-
-document.getElementById("manualOverrideBtn").addEventListener("click", async () => {
-  const time = prompt("Enter Mincha time (e.g. 7:30 PM)");
-  if (!time) return;
-
-  const today = new Date().toLocaleDateString("en-US");
-
-  try {
-    const res = await fetch(
-      "https://bais-yisroel-website-2-0.onrender.com/api/zmanim/override-mincha",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          date: today,
-          time
-        })
-      }
-    );
-
-    if (!res.ok) {
-      throw new Error("Not authorized");
-    }
-
-    document.getElementById("weekdayMinchaMaariv").textContent = time;
-    alert("Mincha time updated");
-  } catch (err) {
-    alert("You are not authorized or server error occurred.");
   }
 });

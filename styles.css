@@ -4,43 +4,160 @@ body {
     color: #0D1B2A;
 }
 
+/* ================= LAYOUT ================= */
+
 .outer-container {
     width: 90%;
-    max-width: fit-content;
     margin: 0 auto;
-    background-color: white;
-    display: flex;
-    flex-wrap: wrap;
-    padding-top: 140px; /* ⬅ pushes ALL separate-* down */
+    padding-top: 140px;
 }
+
+/* ================= HEADER ================= */
 
 .site-header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
+    background: white;
     display: flex;
     align-items: center;
-    justify-content: space-between; /* logo left, buttons right */
-    background-color: white;
-    z-index: 1000;
+    justify-content: space-between;
     padding: 0 2rem;
+    z-index: 1000;
 }
 
-/* Back button for desktop */
-/* .header-back-button {
-    font-size: 0.9rem;          
-    padding: 0.3rem 0.6rem;    
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #f9f9f9;
+.logo img {
+    max-height: 8rem;
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding-right: 17rem;
+}
+
+.nav-menu {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+}
+
+/* ================= WELCOME SECTION ================= */
+
+.welcome-section {
+    padding-left: 1rem;
+    display: flex;
+    align-items: stretch;
+    gap: 2rem;
+    max-width: 1200px;
+    max-height: 700px;
+    margin: 0 auto;
+    font-size: 8px;
+}
+
+/* LEFT IMAGE */
+
+.refresh-image {
+    flex: 1;
+    display: flex;
+}
+
+.left-image {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.left-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* RIGHT SCHEDULE */
+
+.week-schedule {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+    text-align: center;
+    /* border: 2px solid #0D1B2A; */
+    border-radius: 5px;
+}
+
+.week-schedule h2 {
+    color: #415A77;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+.schedule-details p {
+    margin: 0.75rem 0;
+    font-size: 1.1rem;
+}
+
+.schedule-details span {
+    color: #415A77;
+    font-weight: bold;
+}
+
+.schedule-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: auto;
+}
+
+/* ================= BUTTONS ================= */
+
+.button.front {
+    background-color: #415A77;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
     cursor: pointer;
-    margin-right: 1rem;        
+    text-align: center;
+    font-size: 16px;
 }
 
-.header-back-button:hover {
-    background-color: #eee;
-} */
+.button.front:hover {
+    background-color: #0D1B2A;
+}
+
+/* ================= FOOTER ================= */
+
+.footer {
+    margin-top: 4rem;
+    text-align: center;
+}
+
+.footer a {
+    color: #0D1B2A;
+    text-decoration: underline;
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+    .welcome-section {
+        flex-direction: column;
+        max-width: 90%;
+    }
+
+    .refresh-image,
+    .week-schedule {
+        max-height: none;
+    }
+}
+
+
+/* ================= NAV BAR ================= */
 
 .mobile-only {
     display: none;
@@ -55,7 +172,7 @@ body {
 /* Navbar container - desktop */
 .navbar {
     display: flex;
-    justify-content: center; /* center the nav items horizontally */
+    justify-content: center;
     align-items: center;
     padding: 0 2rem;
     background-color: white;
@@ -81,7 +198,10 @@ body {
 }
 
 /* Buttons */
-.nav-button, .nav-button-events, .nav-button-comm, .nav-button-dropdown {
+.nav-button,
+.nav-button-events,
+.nav-button-comm,
+.nav-button-dropdown {
     text-decoration: none;
     color: #415A77;
     font-size: 1.2rem;
@@ -92,6 +212,7 @@ body {
     display: inline-block;
 }
 
+/* Donate button */
 .nav-button-donate {
     background-color: #415A77;
     color: white;
@@ -104,15 +225,15 @@ body {
     display: inline-block;
 }
 
-/* Dropdown specific */
+/* Dropdown trigger */
 .nav-button-dropdown {
     cursor: pointer;
 }
 
-/* Hover effect */
-.nav-button:hover, 
-.nav-button-events:hover, 
-.nav-button-comm:hover, 
+/* Hover */
+.nav-button:hover,
+.nav-button-events:hover,
+.nav-button-comm:hover,
 .nav-button-dropdown:hover {
     color: white;
     background-color: #0D1B2A;
@@ -155,21 +276,13 @@ body {
     color: white;
 }
 
+/* Open state */
 .nav-item.dropdown.open > .dropdown-menu {
     display: block;
 }
 
-.highlighted:hover {
-    color: white;
-    background-color: #0D1B2A;
-    border: .3rem solid #0D1B2A;
-}
+/* ================= MOBILE NAV ================= */
 
-.hidden {
-  display: none;
-}
-
-/* Mobile navigation */
 @media screen and (max-width: 768px) {
     /* Hide desktop nav items */
     .nav-menu {
@@ -182,13 +295,13 @@ body {
         display: inline-block;
     }
 
-    /* Adjust header layout for mobile */
+    /* Adjust header layout */
     .site-header {
-        justify-content: space-between; /* logo left, buttons right */
+        justify-content: space-between;
         padding: 0.5rem 1rem;
     }
 
-    /* Mobile hamburger */
+    /* Hamburger */
     .menu-icon {
         font-size: 2rem;
         cursor: pointer;
@@ -223,394 +336,47 @@ body {
     }
 }
 
-/* Rest of your original CSS below (unchanged) */
-
+/* Desktop-only */
 .menu-icon {
     display: none;
 }
 
-.refresh-image {
-    padding-right: 2rem;
+
+/* ================= CAROUSEL BUTTONS ================= */
+.carousel {
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
-.left-image {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 105%;
-    max-height: 350px;
-    overflow: hidden;
+.carousel img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 5px;
 }
 
-.left-image img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    object-position: center;
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(13, 27, 42, 0.7);
+  color: white;
+  border: none;
+  font-size: 2rem;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  border-radius: 4px;
 }
 
-.week-schedule {
-    display: inline-block; 
-    padding: 25px;
-    height: auto;
-    padding-bottom: 2.3rem;
-    background-color: white;
-    border: 2px solid #0D1B2A;
-    border-radius: 5px;
-    margin: 0;
+.carousel-btn.prev {
+  left: 10px;
 }
 
-.week-schedule h2 {
-    color: #415A77;
-    margin-bottom: 2rem;
-    font-size: 1.8rem;
+.carousel-btn.next {
+  right: 10px;
 }
 
-.week-schedule h3 {
-    color: #415A77;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    font-size: .8rem;
-}
-
-.schedule-details p {
-    margin: 1rem 0;
-    font-size: 1.2rem;
-}
-
-.schedule-details p span {
-    color: #415A77;
-    font-weight: bold;
-}
-
-.schedule-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.button {
-    padding: 15rem;
-    background-color: #415A77;
-    color: #FFF;
-    text-align: center;
-    border-radius: 5rem;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-}
-
-.button:hover {
-    background-color: #0D1B2A;
-}
-
-.footer {
-    margin-top: 4rem;
-    background-color: white;
-    color: #0D1B2A;
-    text-align: center;
-}
-
-.footer a {
-    text-decoration: underline;
-    color: #0D1B2A;
-}
-
-.content-wrapper {
-    display: flex;
-    padding-left: 3rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: stretch;
-    gap: 1rem;
-}
-
-.subscribe-form {
-    width: 50rem;
-    padding: 3rem;
-    background-color: white;
-    border: .2rem solid #0D1B2A;
-    border-radius: 1rem;
-}
-
-.subscribe-form h2 {
-    color: #415A77;
-    margin-bottom: 2rem;
-    font-size: 1.8rem;
-}
-
-.subscribe-form p {
-    margin-bottom: 2rem;
-    font-size: 1.1rem;
-}
-
-p.permission {
-    font-size: small;
-}
-
-.shabbos p {
-    text-align: center;
-    margin-top: 0.5rem;
-    font-size: 1.1rem;
-}
-
-.ctct-form-field {
-    margin-bottom: 1rem;
-}
-
-.ctct-form-label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-.ctct-form-element {
-    width: 100%;
-    padding: 8px;
-    border-radius: 5px;
-    border: 2px solid #0D1B2A;
-}
-
-.ctct-form-button {
-    padding: 15px;
-    background-color: #415A77;
-    color: #FFF;
-    text-align: center;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-    align-items: center;
-}
-
-.ctct-form-button:hover {
-    background-color: #415A77;
-}
-
-/* Separate sections */
-.separate-index,
-.separate-info,
-.separate-community,
-.separate-subscribe,
-.separate-events,
-.separate-dvar,
-.separate-halachos {
-    padding-top: 0px;
-}
-
-.separate-dvar, .separate-halachos {
-    display: flex;
-    align-items: stretch;
-    gap: 1rem;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
-}
-
-.separate-halachos,
-.separate-community,
-.separate-info,
-.separate-subscribe,
-.separate-events {
-    display: flex;
-    justify-content: center;
-    align-items: stretch;
-    gap: 1rem;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
-}
-
-.about-box {
-    border-radius: 2rem;
-    font-size: 1.25rem;
-    text-align: justify;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-}
-
-.visitors-buttons, .community-buttons,
-.events-buttons, .info-buttons,
-.info-dvar-buttons, .events-dvar-buttons,
-.halachos-dvar-buttons, .shabbos-dvar-buttons {
-    flex: 1;
-    padding: .5rem;
-    background-color: white;
-    font-size: 5px;
-    text-align: center;
-}
-
-.about-box, .visitors, .community, .events, .info, .halachos, .shabbos {
-    flex: 1;
-    padding: 1.5rem;
-    background-color: white;
-    border: .2rem solid #0D1B2A;
-    border-radius: 1rem;
-    font-size: larger;
-    text-align: justify;
-}
-
-.about-box h2, .visitors h2, .community h2,
-.events h2, .info h2, .halachos h2, .shabbos h2 {
-    color: #415A77;
-    margin-bottom: 1rem;
-    font-size: 2.3rem;
-    text-align: center;
-}
-
-.community ul, .visitors ul, .events ul,
-.info ul, .halachos ul, .shabbos ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.community ul li a, .visitors ul li a, .events ul li a,
-.info ul li a, .halachos ul li a, .shabbos ul li a,
-.halachos ul a, .shabbos ul a{
-    display: block;
-    background-color: white;
-    color: #0D1B2A;
-    text-decoration: none;
-    border-radius: 1rem;
-    transition: background-color 0.3s ease;
-}
-
-.community ul li a:hover, .visitors ul li a:hover, 
-.events ul li a:hover, .info ul li a:hover,
-.halachos ul a:hover, .shabbos ul a:hover {
-    background-color: #415A77;
-    color: white;
-}
-
-.separate-events {
-    display: flex;
-    justify-content: center;
-    align-items: stretch;
-    gap: 1rem;
-    flex: 1;
-}
-
-/* Collapsible sections */
-.collapsible {
-    background-color: white;
-    cursor: pointer;
-    width: 100%;
-    text-align: left;
-    border: none;
-    outline: none;
-    margin-top: 10px;
-    text-decoration: none;
-    color: #0D1B2A;
-    font-weight: bold;
-    border-radius: 8px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    font-size: 1.3rem;
-}
-
-.collapsible:hover {
-    background-color: #415A77;
-    color: white;
-}
-
-.content {
-    padding: 0 18px;
-    display: none;
-    overflow: hidden;
-    background-color: #f1f1f1;
-}
-
-/* Calendar */
-.week-events {
-    padding-left: 5rem;
-    width: 30%; 
-    text-align: left;
-}
-
-.calendar-container {
-    width: 100%;
-    height: 600px;
-    border-radius: 5px;
-    border: 2px solid #0D1B2A;
-    box-sizing: border-box;
-}
-
-iframe {
-    width: 100%;
-    height: 100%;
-    border: 0;
-}
-
-/* Buttons */
-button.link-style {
-    all: unset; 
-    color: #0D1B2A;
-    font-size: 1.2rem;
-    font-weight: bold;
-    cursor: pointer;
-    padding: 1rem 1rem;
-    border-radius: .5rem;
-    transition: 0.3s ease-in-out;
-}
-
-button.link-style:hover {
-    color: white;
-    background-color: #415A77;
-}
-
-.button.front {
-    background-color: #415A77; 
-    border: none;                  
-    color: white;                
-    font-size: 1.2rem;
-    font-weight: bold;
-    cursor: pointer;
-    padding: 10px 15px;
-    border-radius: 5px;
-    transition: 0.3s ease-in-out;
-}
-
-.button.front:hover {
-    background-color: #0D1B2A;
-    color: white;
-}
-
-/* Spotify & Share embeds */
-.spotify-embed {
-    position: relative;
-    width: 100%;
-    padding-top: 50%; 
-}
-
-.spotify-embed iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-    border-radius: 12px;
-}
-
-.share-embed {
-    position: relative;
-    width: 100%;
-    padding-bottom: 80%; 
-}
-
-.share-embed iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-    border-radius: 12px;
+.carousel-btn:hover {
+  background: rgba(13, 27, 42, 0.9);
 }

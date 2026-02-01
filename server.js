@@ -177,3 +177,48 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`✅ Server listening on ${PORT}`);
 });
+
+async function getAllImages(folderPath, accessToken) {
+  let files = [];
+  let url = `https://graph.microsoft.com/v1.0/drives/${process.env.SHAREPOINT_DRIVE_ID}/root:/${encodeURIComponent(folderPath)}:/children`;
+
+  while (url) {
+    const res = await axios.get(url, {
+      headers: { Authorization: `Bearer ${accessToken}` }
+    });
+
+    files.push(...res.data.value);
+    url = res.data["@odata.nextLink"];
+  }
+
+  return files
+    .filter(item =>
+      item.file &&
+      item.name.match(/\.(jpg|jpeg|png|webp)$/i)
+    )
+    .sort(
+      (a, b) =>
+        new Date(b.lastModifiedDateTime) -
+        new Date(a.lastModifiedDateTime)
+    );
+}
+
+app.get("/api/sharepoint/pictures", async (req, res) => {
+  try {
+    const accessToken = await getAccessToken();
+
+    const folderPath = "Pictures"; // EXACT SharePoint folder name
+
+    const images = await getAllImages(folderPath, accessToken);
+
+    const imageUrls = images.map(file => ({
+      name: file.name,
+      url: file["@microsoft.graph.downloadUrl"]
+    }));
+
+    res.json(imageUrls);
+  } catch (err) {
+    console.error("❌ Error fetching images:", err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
