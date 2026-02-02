@@ -1,31 +1,26 @@
-let images = [];
-let currentIndex = 0;
-
-const imgEl = document.getElementById("carousel-image");
-const prevBtn = document.querySelector(".carousel-btn.prev");
-const nextBtn = document.querySelector(".carousel-btn.next");
-
 async function loadCarouselImages() {
   try {
-    const res = await fetch(
-            `https://bais-yisroel-website-2-0.onrender.com/api/sharepoint/recent-file?folder=${encodeURIComponent(folder)}&t=${Date.now()}`
-    );
-    images = await res.json();
+    const res = await fetch("https://bais-yisroel-website-2-0.onrender.com/api/sharepoint/pictures");
+    if (!res.ok) throw new Error(`HTTP error ${res.status}`);
+    const images = await res.json();
 
-    if (images.length > 0) {
-      imgEl.src = images[0].url;
+    if (!images.length) return;
+
+    const imgEl = document.getElementById("carousel-image");
+    let currentIndex = 0;
+
+    function showImage(index) {
+      currentIndex = (index + images.length) % images.length;
+      imgEl.src = images[currentIndex].url;
     }
+
+    document.querySelector(".carousel-btn.prev").addEventListener("click", () => showImage(currentIndex - 1));
+    document.querySelector(".carousel-btn.next").addEventListener("click", () => showImage(currentIndex + 1));
+
+    imgEl.src = images[0].url; // start with first image
   } catch (err) {
     console.error("Carousel load failed:", err);
   }
 }
-
-function showImage(index) {
-  currentIndex = (index + images.length) % images.length;
-  imgEl.src = images[currentIndex].url;
-}
-
-prevBtn.addEventListener("click", () => showImage(currentIndex - 1));
-nextBtn.addEventListener("click", () => showImage(currentIndex + 1));
 
 document.addEventListener("DOMContentLoaded", loadCarouselImages);

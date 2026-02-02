@@ -177,53 +177,48 @@ app.get("/api/sharepoint/recent-file", async (req, res) => {
   }
 });
 
-// /* START SERVER */
-// const PORT = process.env.PORT || 3001;
-// app.listen(PORT, () => {
-//   console.log(`✅ Server listening on ${PORT}`);
-// });
+async function getAllImages(folderPath, accessToken) {
+  let files = [];
+  let url = `https://graph.microsoft.com/v1.0/drives/${process.env.SHAREPOINT_DRIVE_ID}/root:/${encodeURIComponent(folderPath)}:/children`;
 
-// async function getAllImages(folderPath, accessToken) {
-//   let files = [];
-//   let url = `https://graph.microsoft.com/v1.0/drives/${process.env.SHAREPOINT_DRIVE_ID}/root:/${encodeURIComponent(folderPath)}:/children`;
+  while (url) {
+    const res = await axios.get(url, {
+      headers: { Authorization: `Bearer ${accessToken}` }
+    });
 
-//   while (url) {
-//     const res = await axios.get(url, {
-//       headers: { Authorization: `Bearer ${accessToken}` }
-//     });
+    files.push(...res.data.value);
+    url = res.data["@odata.nextLink"];
+  }
 
-//     files.push(...res.data.value);
-//     url = res.data["@odata.nextLink"];
-//   }
+  return files
+    .filter(item => item.file && item.name.match(/\.(jpg|jpeg|png|webp)$/i))
+    .sort((a, b) => new Date(b.lastModifiedDateTime) - new Date(a.lastModifiedDateTime));
+}
 
-//   return files
-//     .filter(item =>
-//       item.file &&
-//       item.name.match(/\.(jpg|jpeg|png|webp)$/i)
-//     )
-//     .sort(
-//       (a, b) =>
-//         new Date(b.lastModifiedDateTime) -
-//         new Date(a.lastModifiedDateTime)
-//     );
-// }
 
-// app.get("/api/sharepoint/pictures", async (req, res) => {
-//   try {
-//     const accessToken = await getAccessToken();
+app.get("/api/sharepoint/pictures", async (req, res) => {
+  try {
+    const accessToken = await getAccessToken(); // keep your existing token logic
 
-//     const folderPath = "Pictures"; // EXACT SharePoint folder name
+    // Full folder path in SharePoint
+    const folderPath = "BY Observer/BYSO Files/Pictures";
 
-//     const images = await getAllImages(folderPath, accessToken);
+    // Fetch all files in folder
+    const files = await getAllImages(folderPath, accessToken);
 
-//     const imageUrls = images.map(file => ({
-//       name: file.name,
-//       url: file["@microsoft.graph.downloadUrl"]
-//     }));
+    if (!files || files.length === 0) {
+      return res.status(404).json({ error: "No images found in SharePoint folder." });
+    }
 
-//     res.json(imageUrls);
-//   } catch (err) {
-//     console.error("❌ Error fetching images:", err.message);
-//     res.status(500).json({ error: err.message });
-//   }
-// });
+    // Map to name + download URL
+    const imageUrls = files.map(file => ({
+      name: file.name,
+      url: file["@microsoft.graph.downloadUrl"]
+    }));
+
+    res.json(imageUrls);
+  } catch (err) {
+    console.error("❌ Error fetching images:", err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
