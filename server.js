@@ -15,7 +15,12 @@ const app = express();
 
 app.set("trust proxy", true);
 
-app.use(cors({ origin: "https://david654100.github.io" }));
+app.use(cors({
+  origin: [
+    "https://david654100.github.io",
+    "https://bais-yisroel-website-2-0.onrender.com"
+  ]
+}));
 app.use(express.json());
 
 const CSV_PATH = path.join(process.cwd(), "data", "bais_zman_draft_2.csv");
@@ -172,53 +177,53 @@ app.get("/api/sharepoint/recent-file", async (req, res) => {
   }
 });
 
-/* START SERVER */
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-  console.log(`✅ Server listening on ${PORT}`);
-});
+// /* START SERVER */
+// const PORT = process.env.PORT || 3001;
+// app.listen(PORT, () => {
+//   console.log(`✅ Server listening on ${PORT}`);
+// });
 
-async function getAllImages(folderPath, accessToken) {
-  let files = [];
-  let url = `https://graph.microsoft.com/v1.0/drives/${process.env.SHAREPOINT_DRIVE_ID}/root:/${encodeURIComponent(folderPath)}:/children`;
+// async function getAllImages(folderPath, accessToken) {
+//   let files = [];
+//   let url = `https://graph.microsoft.com/v1.0/drives/${process.env.SHAREPOINT_DRIVE_ID}/root:/${encodeURIComponent(folderPath)}:/children`;
 
-  while (url) {
-    const res = await axios.get(url, {
-      headers: { Authorization: `Bearer ${accessToken}` }
-    });
+//   while (url) {
+//     const res = await axios.get(url, {
+//       headers: { Authorization: `Bearer ${accessToken}` }
+//     });
 
-    files.push(...res.data.value);
-    url = res.data["@odata.nextLink"];
-  }
+//     files.push(...res.data.value);
+//     url = res.data["@odata.nextLink"];
+//   }
 
-  return files
-    .filter(item =>
-      item.file &&
-      item.name.match(/\.(jpg|jpeg|png|webp)$/i)
-    )
-    .sort(
-      (a, b) =>
-        new Date(b.lastModifiedDateTime) -
-        new Date(a.lastModifiedDateTime)
-    );
-}
+//   return files
+//     .filter(item =>
+//       item.file &&
+//       item.name.match(/\.(jpg|jpeg|png|webp)$/i)
+//     )
+//     .sort(
+//       (a, b) =>
+//         new Date(b.lastModifiedDateTime) -
+//         new Date(a.lastModifiedDateTime)
+//     );
+// }
 
-app.get("/api/sharepoint/pictures", async (req, res) => {
-  try {
-    const accessToken = await getAccessToken();
+// app.get("/api/sharepoint/pictures", async (req, res) => {
+//   try {
+//     const accessToken = await getAccessToken();
 
-    const folderPath = "Pictures"; // EXACT SharePoint folder name
+//     const folderPath = "Pictures"; // EXACT SharePoint folder name
 
-    const images = await getAllImages(folderPath, accessToken);
+//     const images = await getAllImages(folderPath, accessToken);
 
-    const imageUrls = images.map(file => ({
-      name: file.name,
-      url: file["@microsoft.graph.downloadUrl"]
-    }));
+//     const imageUrls = images.map(file => ({
+//       name: file.name,
+//       url: file["@microsoft.graph.downloadUrl"]
+//     }));
 
-    res.json(imageUrls);
-  } catch (err) {
-    console.error("❌ Error fetching images:", err.message);
-    res.status(500).json({ error: err.message });
-  }
-});
+//     res.json(imageUrls);
+//   } catch (err) {
+//     console.error("❌ Error fetching images:", err.message);
+//     res.status(500).json({ error: err.message });
+//   }
+// });
