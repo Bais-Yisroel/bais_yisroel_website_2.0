@@ -1,6 +1,6 @@
 async function loadCarouselImages() {
   try {
-    const res = await fetch("https://bais-yisroel-website-2-0.onrender.com/api/sharepoint/pictures");
+    const res = await fetch("/api/sharepoint/pictures");
     if (!res.ok) throw new Error(`HTTP error ${res.status}`);
     const images = await res.json();
 
