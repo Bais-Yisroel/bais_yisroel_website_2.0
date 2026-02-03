@@ -3,39 +3,27 @@ dotenv.config();
 
 import express from "express";
 import axios from "axios";
+import cors from "cors";
+
 import fs from "fs";
 import path from "path";
 import { parse } from "csv-parse/sync";
 import { stringify } from "csv-stringify/sync";
 
-/* =========================
-   App setup
-========================= */
 
 const app = express();
 
-// REQUIRED for Render + x-forwarded-for
 app.set("trust proxy", true);
 
+app.use(cors({
+  origin: [
+    "https://david654100.github.io",
+    "https://bais-yisroel-website-2-0.onrender.com"
+  ]
+}));
 app.use(express.json());
 
-const __dirname = new URL(".", import.meta.url).pathname;
-
-/* =========================
-   Serve frontend (NO CORS)
-========================= */
-
-app.use(express.static(path.join(__dirname, "public")));
-
-/* =========================
-   CSV path
-========================= */
-
 const CSV_PATH = path.join(process.cwd(), "data", "bais_zman_draft_2.csv");
-
-/* =========================
-   Admin IP logic
-========================= */
 
 function isAdminIP(req) {
   const adminIps = (process.env.ADMIN_IPS || "")
@@ -51,13 +39,14 @@ function isAdminIP(req) {
   return adminIps.includes(requestIp);
 }
 
+// server.js
 app.get("/check-admin", (req, res) => {
-  res.json({ allowed: isAdminIP(req) });
+  if (isAdminIP(req)) {
+    res.json({ allowed: true });
+  } else {
+    res.json({ allowed: false });
+  }
 });
-
-/* =========================
-   Zmanim override
-========================= */
 
 app.post("/api/zmanim/override-mincha", (req, res) => {
   if (!isAdminIP(req)) {
@@ -85,16 +74,15 @@ app.post("/api/zmanim/override-mincha", (req, res) => {
   res.json({ success: true });
 });
 
-/* =========================
-   Microsoft Graph auth
-========================= */
+app.get("/", (req, res) => {
+  res.send("✅ SharePoint file API is alive");
+});
 
 let cachedToken = null;
 let tokenExpiresAt = 0;
 
 async function getAccessToken() {
   const now = Date.now();
-
   if (cachedToken && now < tokenExpiresAt) {
     return cachedToken;
   }
@@ -108,7 +96,9 @@ async function getAccessToken() {
   params.append("scope", "https://graph.microsoft.com/.default");
 
   const response = await axios.post(tokenUrl, params.toString(), {
-    headers: { "Content-Type": "application/x-www-form-urlencoded" }
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
   });
 
   cachedToken = response.data.access_token;
@@ -117,9 +107,6 @@ async function getAccessToken() {
   return cachedToken;
 }
 
-/* =========================
-   SharePoint helpers
-========================= */
 
 async function getMostRecentFile(folderPath, accessToken) {
   let files = [];
@@ -129,19 +116,66 @@ async function getMostRecentFile(folderPath, accessToken) {
     const res = await axios.get(url, {
       headers: { Authorization: `Bearer ${accessToken}` }
     });
+
     files.push(...res.data.value);
     url = res.data["@odata.nextLink"];
   }
 
   const onlyFiles = files.filter(item => item.file);
-  onlyFiles.sort(
-    (a, b) =>
-      new Date(b.lastModifiedDateTime) -
-      new Date(a.lastModifiedDateTime)
-  );
 
+  console.log(`📄 Fetching from: ${folderPath}`);
+  console.log("📄 Fetched files:");
+
+  onlyFiles.forEach(file => {
+    console.log(`- ${file.name} | Modified: ${file.lastModifiedDateTime}`);
+  });
+
+  if (onlyFiles.length === 0) {
+    throw new Error("No files found in the folder.");
+  }
+
+  onlyFiles.sort((a, b) => new Date(b.lastModifiedDateTime) - new Date(a.lastModifiedDateTime));
   return onlyFiles[0];
 }
+
+
+app.get("/api/token-test", async (req, res) => {
+  try {
+    const token = await getAccessToken();
+    res.json({ message: "Access token retrieved successfully ✅", token });
+  } catch (err) {
+    console.error("❌ Token error:", err.response?.data || err.message);
+    res.status(500).json({ error: err.response?.data || err.message });
+  }
+});
+
+app.get("/api/sharepoint/recent-file", async (req, res) => {
+  try {
+    const folder = req.query.folder;
+    if (!folder) return res.status(400).json({ error: "Missing folder query parameter" });
+
+    const accessToken = await getAccessToken();
+
+    const folderPath = `BY Observer/BYSO Files/${folder.replace(/_/g, " ")}`;
+    
+    const latestFile = await getMostRecentFile(folderPath, accessToken);
+
+    const fileResponse = await axios.get(latestFile["@microsoft.graph.downloadUrl"], {
+      responseType: "arraybuffer"
+    });
+
+    res.set({
+      "Cache-Control": "no-store",
+      "Content-Type": fileResponse.headers["content-type"] || "application/pdf",
+      "Content-Disposition": `inline; filename="${latestFile.name}"`
+    });
+
+    res.send(fileResponse.data);
+  } catch (err) {
+    console.error("❌ Error fetching file:", err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
 
 async function getAllImages(folderPath, accessToken) {
   let files = [];
@@ -151,88 +185,40 @@ async function getAllImages(folderPath, accessToken) {
     const res = await axios.get(url, {
       headers: { Authorization: `Bearer ${accessToken}` }
     });
+
     files.push(...res.data.value);
     url = res.data["@odata.nextLink"];
   }
 
   return files
-    .filter(
-      item =>
-        item.file &&
-        item.name.match(/\.(jpg|jpeg|png|webp)$/i)
-    )
-    .sort(
-      (a, b) =>
-        new Date(b.lastModifiedDateTime) -
-        new Date(a.lastModifiedDateTime)
-    );
+    .filter(item => item.file && item.name.match(/\.(jpg|jpeg|png|webp)$/i))
+    .sort((a, b) => new Date(b.lastModifiedDateTime) - new Date(a.lastModifiedDateTime));
 }
 
-/* =========================
-   API routes
-========================= */
-
-app.get("/api/sharepoint/recent-file", async (req, res) => {
-  try {
-    const folder = req.query.folder;
-    if (!folder) {
-      return res.status(400).json({ error: "Missing folder" });
-    }
-
-    const accessToken = await getAccessToken();
-    const folderPath = `BY Observer/BYSO Files/${folder.replace(/_/g, " ")}`;
-
-    const latestFile = await getMostRecentFile(folderPath, accessToken);
-    const fileResponse = await axios.get(
-      latestFile["@microsoft.graph.downloadUrl"],
-      { responseType: "arraybuffer" }
-    );
-
-    res.set({
-      "Cache-Control": "no-store",
-      "Content-Type":
-        fileResponse.headers["content-type"] || "application/pdf",
-      "Content-Disposition": `inline; filename="${latestFile.name}"`
-    });
-
-    res.send(fileResponse.data);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
 
 app.get("/api/sharepoint/pictures", async (req, res) => {
   try {
-    const accessToken = await getAccessToken();
-    const files = await getAllImages(
-      "BY Observer/BYSO Files/Pictures",
-      accessToken
-    );
+    const accessToken = await getAccessToken(); // keep your existing token logic
 
-    res.json(
-      files.map(f => ({
-        name: f.name,
-        url: f["@microsoft.graph.downloadUrl"]
-      }))
-    );
+    // Full folder path in SharePoint
+    const folderPath = "BY Observer/BYSO Files/Pictures";
+
+    // Fetch all files in folder
+    const files = await getAllImages(folderPath, accessToken);
+
+    if (!files || files.length === 0) {
+      return res.status(404).json({ error: "No images found in SharePoint folder." });
+    }
+
+    // Map to name + download URL
+    const imageUrls = files.map(file => ({
+      name: file.name,
+      url: file["@microsoft.graph.downloadUrl"]
+    }));
+
+    res.json(imageUrls);
   } catch (err) {
+    console.error("❌ Error fetching images:", err.message);
     res.status(500).json({ error: err.message });
   }
-});
-
-/* =========================
-   Frontend fallback (LAST)
-========================= */
-
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
-});
-
-/* =========================
-   Start server
-========================= */
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`✅ Server running on port ${PORT}`);
 });
