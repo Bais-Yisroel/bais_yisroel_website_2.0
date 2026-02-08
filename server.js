@@ -95,7 +95,7 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
-// Proxy shul times API to avoid CORS issues
+// Proxy shul times API to avoid CORS issues (deployed: Feb 2025)
 app.get("/api/shul-times", async (req, res) => {
   try {
     const date = req.query.date || new Date().toISOString().split('T')[0];
