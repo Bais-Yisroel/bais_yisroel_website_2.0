@@ -22,7 +22,7 @@ app.use(express.static(__dirname));
 // CORS configuration - allow same origin and dev/prod Render URLs
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://bais-yisroel-website-2-0.onrender.com",
+  // "https://bais-yisroel-website-2-0.onrender.com",
   "https://bais-yisroel-website-2-0-435x.onrender.com",
   "https://bais-yisroel-website-2-0-dev.onrender.com",
 ];
@@ -147,6 +147,7 @@ async function getAccessToken() {
 
 async function getMostRecentFile(folderPath, accessToken) {
   let files = [];
+  // Use BYAdministration site path
   let url = `https://graph.microsoft.com/v1.0/drives/${process.env.SHAREPOINT_DRIVE_ID}/root:/${encodeURIComponent(folderPath)}:/children`;
 
   while (url) {
@@ -228,7 +229,7 @@ async function getAllImages(folderPath, accessToken) {
   }
 
   return files
-    .filter(item => item.file && item.name.match(/\.(jpg|jpeg|png|webp)$/i))
+    .filter(item => item.file && item.name.match(/\.(heic|jpg|jpeg|png|webp|gif)$/i))
     .sort((a, b) => new Date(b.lastModifiedDateTime) - new Date(a.lastModifiedDateTime));
 }
 
@@ -237,7 +238,7 @@ app.get("/api/sharepoint/pictures", async (req, res) => {
   try {
     const accessToken = await getAccessToken(); // keep your existing token logic
 
-    // Full folder path in SharePoint
+    // Full folder path in SharePoint - corrected path from user's URL
     const folderPath = "BY Observer/BYSO Files/Pictures";
 
     // Fetch all files in folder
