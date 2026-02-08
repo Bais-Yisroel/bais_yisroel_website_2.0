@@ -12,14 +12,31 @@ import { stringify } from "csv-stringify/sync";
 
 
 const app = express();
+const __dirname = path.resolve();
 
 app.set("trust proxy", true);
 
+// Serve static files from root directory (frontend)
+app.use(express.static(__dirname));
+
+// CORS configuration - allow same origin and dev/prod Render URLs
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://bais-yisroel-website-2-0.onrender.com",
+  // Add your prod Render URL here when deployed
+];
+
 app.use(cors({
-  origin: [
-    "https://david654100.github.io",
-    "https://bais-yisroel-website-2-0.onrender.com"
-  ]
+  origin: function(origin, callback) {
+    // Allow requests with no origin (mobile apps, curl, etc.)
+    if(!origin) return callback(null, true);
+    
+    if(allowedOrigins.indexOf(origin) === -1) {
+      return callback(new Error('CORS policy violation'), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true
 }));
 app.use(express.json());
 
@@ -75,7 +92,26 @@ app.post("/api/zmanim/override-mincha", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  res.send("✅ SharePoint file API is alive");
+  res.sendFile(path.join(__dirname, "index.html"));
+});
+
+// Proxy shul times API to avoid CORS issues
+app.get("/api/shul-times", async (req, res) => {
+  try {
+    const date = req.query.date || new Date().toISOString().split('T')[0];
+    const shulTimesApiUrl = `https://us-central1-bais-website.cloudfunctions.net/bais_shul_times?date=${date}`;
+
+    const response = await axios.get(shulTimesApiUrl, {
+      headers: {
+        "Accept": "application/json"
+      }
+    });
+
+    res.json(response.data);
+  } catch (err) {
+    console.error("❌ Shul times API error:", err.message);
+    res.status(500).json({ error: err.message });
+  }
 });
 
 let cachedToken = null;
@@ -221,4 +257,18 @@ app.get("/api/sharepoint/pictures", async (req, res) => {
     console.error("❌ Error fetching images:", err.message);
     res.status(500).json({ error: err.message });
   }
+});
+
+// SPA fallback - serve index.html for any route not matched above
+app.get("*", (req, res) => {
+  // Only serve HTML files for client-side routing
+  const acceptHeader = req.headers.accept || "";
+  
+  // If it's an API request that wasn't handled, return 404
+  if (req.path.startsWith("/api/")) {
+    return res.status(404).json({ error: "API endpoint not found" });
+  }
+  
+  // For all other routes, serve the index.html
+  res.sendFile(path.join(__dirname, "index.html"));
 });
