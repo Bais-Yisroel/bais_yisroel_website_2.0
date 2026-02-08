@@ -23,7 +23,8 @@ app.use(express.static(__dirname));
 const allowedOrigins = [
   "http://localhost:3000",
   "https://bais-yisroel-website-2-0.onrender.com",
-  // Add your prod Render URL here when deployed
+  "https://bais-yisroel-website-2-0-435x.onrender.com",
+  "https://bais-yisroel-website-2-0-dev.onrender.com",
 ];
 
 app.use(cors({
