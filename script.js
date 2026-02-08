@@ -86,7 +86,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const todayDate = today.toISOString().split('T')[0];
         const dayOfWeek = today.getDay();
 
-        const apiUrl = `https://corsproxy.io/?url=https://us-central1-bais-website.cloudfunctions.net/bais_shul_times?date=${todayDate}`;
+        // Use our backend proxy to avoid CORS issues
+        const apiUrl = `/api/shul-times?date=${todayDate}`;
 
         try {
             const response = await fetch(apiUrl);
@@ -212,7 +213,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll("button[data-folder]").forEach(button => {
       button.addEventListener("click", async () => {
         const folder = button.dataset.folder;
@@ -220,8 +221,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (spinner) spinner.style.display = "block";
   
         try {
+          // Use relative path - works on same origin (Render)
           const response = await fetch(
-            `https://bais-yisroel-website-2-0.onrender.com/api/sharepoint/recent-file?folder=${encodeURIComponent(folder)}&t=${Date.now()}`
+            `/api/sharepoint/recent-file?folder=${encodeURIComponent(folder)}&t=${Date.now()}`
           );
           if (!response.ok) throw new Error("File download failed.");
   
