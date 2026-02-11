@@ -263,17 +263,3 @@ app.get("/api/sharepoint/pictures", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-
-// SPA fallback - serve index.html for any route not matched above
-app.get("*", (req, res) => {
-  // Only serve HTML files for client-side routing
-  const acceptHeader = req.headers.accept || "";
-  
-  // If it's an API request that wasn't handled, return 404
-  if (req.path.startsWith("/api/")) {
-    return res.status(404).json({ error: "API endpoint not found" });
-  }
-  
-  // For all other routes, serve the index.html
-  res.sendFile(path.join(__dirname, "index.html"));
-});
