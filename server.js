@@ -16,6 +16,28 @@ const __dirname = path.resolve();
 
 app.set("trust proxy", true);
 
+// API Routes - must be defined BEFORE static middleware and catch-all route
+// ====================
+
+// Proxy shul times API to avoid CORS issues (deployed: Feb 2025)
+app.get("/api/shul-times", async (req, res) => {
+  try {
+    const date = req.query.date || new Date().toISOString().split('T')[0];
+    const shulTimesApiUrl = `https://us-central1-bais-website.cloudfunctions.net/bais_shul_times?date=${date}`;
+
+    const response = await axios.get(shulTimesApiUrl, {
+      headers: {
+        "Accept": "application/json"
+      }
+    });
+
+    res.json(response.data);
+  } catch (err) {
+    console.error("❌ Shul times API error:", err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Serve static files from root directory (frontend)
 app.use(express.static(__dirname));
 
@@ -40,28 +62,6 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json());
-
-// API Routes - must be defined BEFORE the catch-all route
-// ====================
-
-// Proxy shul times API to avoid CORS issues (deployed: Feb 2025)
-app.get("/api/shul-times", async (req, res) => {
-  try {
-    const date = req.query.date || new Date().toISOString().split('T')[0];
-    const shulTimesApiUrl = `https://us-central1-bais-website.cloudfunctions.net/bais_shul_times?date=${date}`;
-
-    const response = await axios.get(shulTimesApiUrl, {
-      headers: {
-        "Accept": "application/json"
-      }
-    });
-
-    res.json(response.data);
-  } catch (err) {
-    console.error("❌ Shul times API error:", err.message);
-    res.status(500).json({ error: err.message });
-  }
-});
 
 const CSV_PATH = path.join(process.cwd(), "data", "bais_zman_draft_2.csv");
 
