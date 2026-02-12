@@ -221,20 +221,28 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 25px;
+    padding: 20px;
     text-align: center;
     border-radius: 5px;
 }
 
 .week-schedule h2 {
     color: #415A77;
-    margin-bottom: 1.5rem;
-    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.schedule-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .schedule-details p {
     margin: 0.6rem 0;
-    font-size: 0.95rem;
+    font-size: 1.1rem;
+    line-height: 1.5;
 }
 
 .schedule-details span {
