@@ -8,60 +8,47 @@
     <link rel="stylesheet" href="mobile.css" media="screen and (max-width: 768px)">
 </head>
 <body>
-    <div class="outer-container">
-        <div class="container">
-            <header class="site-header">        
+    <header class="site-header">
+        <div class="logo">
+            <img id="logo-img" src="images/Bais-Yisroel-logo.png" alt="Congregation Bais Yisroel">
+        </div>
 
-            <div class="logo">
-                <img id="logo-img" src="images/Bais-Yisroel-logo.png" alt="Congregation Bais Yisroel">
+        <nav class="navbar">
+            <div class="menu-icon-container">
+                <button id="back-button" class="header-back-button">&#8592;</button>
+                <div id="menu-toggle" class="menu-icon">☰</div>
             </div>
 
-            <nav class="navbar">
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-button">Home</a></li>
+                <li><a href="community.html" class="nav-button">About Us</a></li>
+                <li><a href="#" class="nav-button nav-button-dropdown">
+                    Information <span class="arrow">&#9662;</span>
+                </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="dvar.html" class="nav-button">Dvar Torahs</a></li>
+                        <li><a href="halachos.html" class="nav-button">Halachos</a></li>
+                    </ul>
+                </li>
+                <li><a href="#" class="nav-button nav-button-dropdown nav-button-education" data-toggle="education-dropdown">
+                    Education <span class="arrow">&#9662;</span>
+                </a>
+                    <ul class="dropdown-menu dropdown-education" id="education-dropdown">
+                        <li><a href="halachos.html" class="nav-button">Halacha</a></li>
+                        <li><a href="school.html" class="nav-button">School</a></li>
+                        <li><a href="dvar.html" class="nav-button">Dvar Torah</a></li>
+                    </ul>
+                </li>
+                <li><a href="#" class="nav-button">BYSO</a></li>
+                <li><a href="community.html" class="nav-button">Community</a></li>
+                <li><a href="subscribe.html" class="nav-button">Subscribe</a></li>
+                <li><a href="https://members.baisyisroel.org/payment" class="nav-button nav-button-donate">Donate</a></li>
+            </ul>
+        </nav>
+    </header>
 
-                <div class="menu-icon-container">
-                    <button id="back-button" class="header-back-button mobile-only">&#8592;</button>
-
-                    <div id="menu-toggle" class="menu-icon mobile-only">☰</div>
-                </div>
-                <ul class="nav-menu">
-                    <li>
-                        <a href="index.html" class="nav-button">Home</a>
-                    </li>
-
-                    <li class="nav-item dropdown closed">
-                        <a href="information.html" class="nav-button nav-button-dropdown parent-link">
-                            Information
-                            <span class="arrow">&#9662;</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="dvar.html" class="nav-button-dropdown">Dvar Torahs</a>
-                            </li>
-                            <li>
-                                <a href="halachos.html" class="nav-button-dropdown">Halachos</a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li>
-                        <a href="community.html" class="nav-button">Community</a>
-                    </li>
-
-                    <li>
-                        <a href="subscribe.html" class="nav-button">Subscribe</a>
-                    </li>
-
-                    <li>
-                        <a href="https://members.baisyisroel.org/payment" class="nav-button">Donate</a>
-                    </li>                
-                </ul>
-            </nav>
-        </header>
-
-        </div>
-        
+    <div class="outer-container">
         <div class="separate-subscribe">
-
             <section class="subscribe-form">
                 <h2>Subscribe to the Bais Yisroel Shabbos Observer</h2>
                 <p>Get the Bais Yisroel Newsletter in your inbox.</p>
@@ -95,7 +82,7 @@
                         <input id="postal_code_0" type="text" name="postal_code" maxlength="50" class="ctct-form-element">
                     </div>
                     <div id="gdpr_text">
-                        <p class="permission">By submitting this form, you are consenting to receive marketing emails from: Bais Yisroel, 4221 Sunset Blvd, Minneapolis, MN, 55416, US, http://www.baisyisroel.org. You can revoke your consent to receive emails at any time by using the SafeUnsubscribe® link, found at the bottom of every email.
+                        <p class="permission">By submitting this form, you are consenting to receive marketing emails from: Bais Yisroel, 4221 Sunset Blvd, Minneapolis, MN, 55416, US, http://www.baisyisroel.org. You can revoke your consent to receive emails at any time by using the SafeUnsubscribe&reg; link, found at the bottom of every email.
                             <a href="https://www.constantcontact.com/legal/service-provider" target="_blank" rel="noopener noreferrer">Emails are serviced by Constant Contact.</a>
                         </p>
                     </div>
@@ -103,47 +90,45 @@
                     <div class="g-recaptcha" id="ctct_recaptcha_0" data-sitekey="6LfHrSkUAAAAAPnKk5cT6JuKlKPzbwyTYuO8--Vr" data-size="invisible"></div>
                 </form>
             </section>
-            <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  const form = document.getElementById("ctct_form_0");
-                  const email = document.getElementById("email_address_0");
-                  const firstName = document.getElementById("first_name_0");
-                  const lastName = document.getElementById("last_name_0");
-                  const postalCode = document.getElementById("postal_code_0");
-                  const submitBtn = form.querySelector("button[type='submit']");
-              
-                  function validateForm() {
-                    const isEmailValid = email.validity.valid;
-                    const isFirstNameFilled = firstName.value.trim() !== "";
-                    const isLastNameFilled = lastName.value.trim() !== "";
-                    const isPostalCodeFilled = postalCode.value.trim() !== "";
-              
-                    if (isEmailValid && isFirstNameFilled && isLastNameFilled && isPostalCodeFilled) {
-                      submitBtn.disabled = false;
-                    } else {
-                      submitBtn.disabled = true;
-                    }
-                  }
-              
-                  // Validate on input changes
-                  [email, firstName, lastName, postalCode].forEach(input =>
-                    input.addEventListener("input", validateForm)
-                  );
-                });
-              </script>
-              
-
-        </div>        
+        </div>
     </div>
 
     <footer class="footer">
         <p>Congregation Bais Yisroel<br>
         4221 Sunset Boulevard, Minneapolis, MN 55416<br>
-        Phone Number: 952-926-7867 || <a href="mailto:office@baisyisroel.org">E-MAIL OFFICE</a></p>
+        Phone: 952-926-7867 | <a href="mailto:office@baisyisroel.org">E-MAIL OFFICE</a></p>
     </footer>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var form = document.getElementById('ctct_form_0');
+            var email = document.getElementById('email_address_0');
+            var firstName = document.getElementById('first_name_0');
+            var lastName = document.getElementById('last_name_0');
+            var postalCode = document.getElementById('postal_code_0');
+            var submitBtn = form.querySelector('button[type="submit"]');
+        
+            function validateForm() {
+                var isEmailValid = email.validity.valid;
+                var isFirstNameFilled = firstName.value.trim() !== '';
+                var isLastNameFilled = lastName.value.trim() !== '';
+                var isPostalCodeFilled = postalCode.value.trim() !== '';
+        
+                if (isEmailValid && isFirstNameFilled && isLastNameFilled && isPostalCodeFilled) {
+                    submitBtn.disabled = false;
+                } else {
+                    submitBtn.disabled = true;
+                }
+            }
+        
+            // Validate on input changes
+            [email, firstName, lastName, postalCode].forEach(function(input) {
+                input.addEventListener('input', validateForm);
+            });
+        });
+    </script>
     <script src="script.js" defer></script>
     <script src="navbar.js"></script>
-    
 </body>
 </html>
+

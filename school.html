@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School - Congregation Bais Yisroel</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="mobile.css" media="screen and (max-width: 768px)">
+</head>
+<body>
+    <header class="site-header">
+        <div class="logo">
+            <img id="logo-img" src="images/Bais-Yisroel-logo.png" alt="Congregation Bais Yisroel">
+        </div>
+
+        <nav class="navbar">
+            <div class="menu-icon-container">
+                <button id="back-button" class="header-back-button">&#8592;</button>
+                <div id="menu-toggle" class="menu-icon">&#9776;</div>
+            </div>
+
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-button">Home</a></li>
+                <li><a href="community.html" class="nav-button">About Us</a></li>
+                <li><a href="information.html" class="nav-button">Information</a></li>
+                <li><a href="#" class="nav-button nav-button-dropdown nav-button-education" data-toggle="education-dropdown">
+                    Education <span class="arrow">&#9662;</span>
+                </a>
+                    <ul class="dropdown-menu dropdown-education" id="education-dropdown">
+                        <li><a href="halachos.html" class="nav-button">Halacha</a></li>
+                        <li><a href="school.html" class="nav-button">School</a></li>
+                        <li><a href="dvar.html" class="nav-button">Dvar Torah</a></li>
+                    </ul>
+                </li>
+                <li><a href="#" class="nav-button">BYSO</a></li>
+                <li><a href="community.html" class="nav-button">Community</a></li>
+                <li><a href="subscribe.html" class="nav-button">Subscribe</a></li>
+                <li><a href="https://members.baisyisroel.org/payment" class="nav-button nav-button-donate">Donate</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="outer-container">
+        <div class="separate">
+            <section class="info">
+                <h2>School Programs</h2>
+                <p>Information about school programs at Congregation Bais Yisroel coming soon.</p>
+            </section>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>Congregation Bais Yisroel<br>
+        4221 Sunset Boulevard, Minneapolis, MN 55416<br>
+        Phone: (952)-926-7867 | <a href="mailto:office@baisyisroel.org">Office Email</a></p>
+    </footer>
+
+    <script src="script.js" defer></script>
+    <script src="navbar.js"></script>
+</body>
+</html>
+
