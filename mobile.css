@@ -81,18 +81,18 @@
     .nav-menu {
         position: fixed;
         top: 0;
-        right: 0;
+        left: 0;
         width: 280px;
         height: 100vh;
         background-color: #415A77;
         flex-direction: column;
         padding: 5rem 1rem 2rem;
         gap: 0;
-        transform: translateX(100%);
+        transform: translateX(-100%);
         transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         z-index: 999;
         overflow-y: auto;
-        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+        box-shadow: 5px 0 15px rgba(0, 0, 0, 0.2);
     }
     
     .nav-menu.active {
@@ -251,20 +251,27 @@
     /* ================= SCHEDULE SECTION ================= */
     .week-schedule {
         padding: 1.5rem 1rem;
+        display: flex;
+        flex-direction: column;
     }
     
     .week-schedule h2 {
         font-size: 1.3rem;
-        margin-bottom: 1rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .schedule-details {
+        flex: none;
     }
     
     .schedule-details p {
         font-size: 0.9rem;
-        margin: 0.5rem 0;
+        margin: 0.25rem 0;
     }
     
     .schedule-buttons {
         margin-top: 1.5rem;
+        order: 99;
     }
     
     /* ================= FOOTER ================= */

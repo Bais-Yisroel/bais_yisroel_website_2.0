@@ -13,9 +13,12 @@
 - [x] Update styles.css - Adjust .schedule-details and .week-schedule sizing
 
 ## Verification
-- [ ] Verify navbar order is correct
-- [ ] Verify Education toggle works (click, not hover)
-- [ ] Verify Information links to its page
-- [ ] Verify Programs dropdown works
-- [ ] Verify schedule sizing is balanced
+- [x] Verify navbar order is correct
+- [x] Verify Education toggle works (click, not hover)
+- [x] Verify Information links to its page
+- [x] Verify Programs dropdown works
+- [x] Verify schedule sizing is balanced
+
+## Commit
+- [x] Committed with message: "Fix navbar order, restore click functionality, and rebalance schedule sizing"
 
