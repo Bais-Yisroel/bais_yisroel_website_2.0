@@ -111,8 +111,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     fastEnds: convertTo12HourFormat(zmanim.fast_ends),
                     minchaErevShabbos: convertTo12HourFormat(zmanim.bais_reg_mincha_time),
                     earlyCandleLighting: convertTo12HourFormat(zmanim.zmanim_plag_hamincha_gra),
-                    // earlyShabbosMincha: convertTo12HourFormat(zmanim.zmanim_plag_hamincha_gra),
-                    // erevYomtovCandleLighting: subtractMinutes(zmanim.zmanim_sunset),
                     yomtovEnd: convertTo12HourFormat(zmanim.zmanim_tzeis_50)
                 };
 
@@ -126,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const earlyMinchaRow = document.getElementById("earlyMinchaRow");
                 const earlyMinchaSpan = document.getElementById("earlyMincha");
                 const fastStartsRow = document.getElementById("fastStartsRow");
-                const fastStartsSpan = document.getElementById("FastStarts");
+                const fastStartsSpan = document.getElementById("fastStarts");
 
                 const fastEndsRow = document.getElementById("fastEndsRow");
                 const fastEndsSpan = document.getElementById("fastEnds");
@@ -135,7 +133,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 const earlyShabbosMinchaSpan = document.getElementById("earlyShabbosMincha");
 
                 const earlyCandleLightingRow = document.getElementById("earlyCandleLightingRow");
-                const earlyCandleLightingSpan = document.getElementById("earlyCandleLighting");
 
                 const isYomTov =
                 zmanim.is_erev_yomtov ||
@@ -213,7 +210,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-  document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll("button[data-folder]").forEach(button => {
       button.addEventListener("click", async () => {
         const folder = button.dataset.folder;
@@ -316,3 +313,4 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
