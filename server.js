@@ -16,32 +16,10 @@ const __dirname = path.resolve();
 
 app.set("trust proxy", true);
 
-// API Routes - must be defined BEFORE static middleware and catch-all route
+// ====================
+// 1. CORS & JSON middleware (MUST come first)
 // ====================
 
-// Proxy shul times API to avoid CORS issues (deployed: Feb 2025)
-app.get("/api/shul-times", async (req, res) => {
-  try {
-    const date = req.query.date || new Date().toISOString().split('T')[0];
-    const shulTimesApiUrl = `https://us-central1-bais-website.cloudfunctions.net/bais_shul_times?date=${date}`;
-
-    const response = await axios.get(shulTimesApiUrl, {
-      headers: {
-        "Accept": "application/json"
-      }
-    });
-
-    res.json(response.data);
-  } catch (err) {
-    console.error("❌ Shul times API error:", err.message);
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// Serve static files from root directory (frontend)
-app.use(express.static(__dirname));
-
-// CORS configuration - allow same origin and dev/prod Render URLs
 const allowedOrigins = [
   "http://localhost:3000",
   "https://bais-yisroel-website-2-0.onrender.com",
@@ -51,9 +29,7 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: function(origin, callback) {
-    // Allow requests with no origin (mobile apps, curl, etc.)
     if(!origin) return callback(null, true);
-    
     if(allowedOrigins.indexOf(origin) === -1) {
       return callback(new Error('CORS policy violation'), false);
     }
@@ -65,140 +41,58 @@ app.use(express.json());
 
 const CSV_PATH = path.join(process.cwd(), "data", "bais_zman_draft_2.csv");
 
-function isAdminIP(req) {
-  const adminIps = (process.env.ADMIN_IPS || "")
-    .split(",")
-    .map(ip => ip.trim());
+// ====================
+// 2. API Routes
+// ====================
 
-  const requestIp =
-    req.headers["x-forwarded-for"]?.split(",")[0] ||
-    req.socket.remoteAddress;
+// Proxy shul times API
+app.get("/api/shul-times", async (req, res) => {
+  try {
+    const date = req.query.date || new Date().toISOString().split('T')[0];
+    const shulTimesApiUrl = `https://us-central1-bais-website.cloudfunctions.net/bais_shul_times?date=${date}`;
 
-  console.log("Request IP:", requestIp);
-
-  return adminIps.includes(requestIp);
-}
-
-// server.js
-app.get("/check-admin", (req, res) => {
-  if (isAdminIP(req)) {
-    res.json({ allowed: true });
-  } else {
-    res.json({ allowed: false });
-  }
-});
-
-app.post("/api/zmanim/override-mincha", (req, res) => {
-  if (!isAdminIP(req)) {
-    return res.status(403).json({ error: "Not authorized" });
-  }
-
-  const { date, time } = req.body;
-  if (!date || !time) {
-    return res.status(400).json({ error: "Missing date or time" });
-  }
-
-  const csvRaw = fs.readFileSync(CSV_PATH, "utf8");
-  const rows = parse(csvRaw, { columns: true });
-
-  const row = rows.find(r => r.engDateString === date);
-  if (!row) {
-    return res.status(404).json({ error: "Date not found in CSV" });
-  }
-
-  row.zmanim_mincha = time;
-
-  const updatedCsv = stringify(rows, { header: true });
-  fs.writeFileSync(CSV_PATH, updatedCsv);
-
-  res.json({ success: true });
-});
-
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
-});
-
-let cachedToken = null;
-let tokenExpiresAt = 0;
-
-async function getAccessToken() {
-  const now = Date.now();
-  if (cachedToken && now < tokenExpiresAt) {
-    return cachedToken;
-  }
-
-  const tokenUrl = `https://login.microsoftonline.com/${process.env.TENANT_ID}/oauth2/v2.0/token`;
-
-  const params = new URLSearchParams();
-  params.append("grant_type", "client_credentials");
-  params.append("client_id", process.env.CLIENT_ID);
-  params.append("client_secret", process.env.CLIENT_SECRET);
-  params.append("scope", "https://graph.microsoft.com/.default");
-
-  const response = await axios.post(tokenUrl, params.toString(), {
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-  });
-
-  cachedToken = response.data.access_token;
-  tokenExpiresAt = now + (response.data.expires_in - 60) * 1000;
-
-  return cachedToken;
-}
-
-
-async function getMostRecentFile(folderPath, accessToken) {
-  let files = [];
-  // Use BYAdministration site path
-  let url = `https://graph.microsoft.com/v1.0/drives/${process.env.SHAREPOINT_DRIVE_ID}/root:/${encodeURIComponent(folderPath)}:/children`;
-
-  while (url) {
-    const res = await axios.get(url, {
-      headers: { Authorization: `Bearer ${accessToken}` }
+    const response = await axios.get(shulTimesApiUrl, {
+      headers: { "Accept": "application/json" }
     });
 
-    files.push(...res.data.value);
-    url = res.data["@odata.nextLink"];
-  }
-
-  const onlyFiles = files.filter(item => item.file);
-
-  console.log(`📄 Fetching from: ${folderPath}`);
-  console.log("📄 Fetched files:");
-
-  onlyFiles.forEach(file => {
-    console.log(`- ${file.name} | Modified: ${file.lastModifiedDateTime}`);
-  });
-
-  if (onlyFiles.length === 0) {
-    throw new Error("No files found in the folder.");
-  }
-
-  onlyFiles.sort((a, b) => new Date(b.lastModifiedDateTime) - new Date(a.lastModifiedDateTime));
-  return onlyFiles[0];
-}
-
-
-app.get("/api/token-test", async (req, res) => {
-  try {
-    const token = await getAccessToken();
-    res.json({ message: "Access token retrieved successfully ✅", token });
+    res.json(response.data);
   } catch (err) {
-    console.error("❌ Token error:", err.response?.data || err.message);
-    res.status(500).json({ error: err.response?.data || err.message });
+    console.error("❌ Shul times API error:", err.message);
+    res.status(500).json({ error: err.message });
   }
 });
 
+// SharePoint pictures endpoint
+app.get("/api/sharepoint/pictures", async (req, res) => {
+  try {
+    const accessToken = await getAccessToken();
+    const folderPath = "BY Observer/BYSO Files/Pictures";
+    const files = await getAllImages(folderPath, accessToken);
+
+    if (!files || files.length === 0) {
+      return res.status(404).json({ error: "No images found in SharePoint folder." });
+    }
+
+    const imageUrls = files.map(file => ({
+      name: file.name,
+      url: file["@microsoft.graph.downloadUrl"]
+    }));
+
+    res.json(imageUrls);
+  } catch (err) {
+    console.error("❌ Error fetching images:", err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// SharePoint recent file download
 app.get("/api/sharepoint/recent-file", async (req, res) => {
   try {
     const folder = req.query.folder;
     if (!folder) return res.status(400).json({ error: "Missing folder query parameter" });
 
     const accessToken = await getAccessToken();
-
     const folderPath = `BY Observer/BYSO Files/${folder.replace(/_/g, " ")}`;
-    
     const latestFile = await getMostRecentFile(folderPath, accessToken);
 
     const fileResponse = await axios.get(latestFile["@microsoft.graph.downloadUrl"], {
@@ -218,6 +112,125 @@ app.get("/api/sharepoint/recent-file", async (req, res) => {
   }
 });
 
+// Token test endpoint
+app.get("/api/token-test", async (req, res) => {
+  try {
+    const token = await getAccessToken();
+    res.json({ message: "Access token retrieved successfully ✅", token });
+  } catch (err) {
+    console.error("❌ Token error:", err.response?.data || err.message);
+    res.status(500).json({ error: err.response?.data || err.message });
+  }
+});
+
+// Admin check endpoint
+app.get("/check-admin", (req, res) => {
+  if (isAdminIP(req)) {
+    res.json({ allowed: true });
+  } else {
+    res.json({ allowed: false });
+  }
+});
+
+// Admin override mincha endpoint
+app.post("/api/zmanim/override-mincha", (req, res) => {
+  if (!isAdminIP(req)) {
+    return res.status(403).json({ error: "Not authorized" });
+  }
+
+  const { date, time } = req.body;
+  if (!date || !time) {
+    return res.status(400).json({ error: "Missing date or time" });
+  }
+
+  const csvRaw = fs.readFileSync(CSV_PATH, "utf8");
+  const rows = parse(csvRaw, { columns: true });
+
+  const row = rows.find(r => r.engDateString === date);
+  if (!row) {
+    return res.status(404).json({ error: "Date not found in CSV" });
+  }
+
+  row.zmanim_mincha = time;
+  const updatedCsv = stringify(rows, { header: true });
+  fs.writeFileSync(CSV_PATH, updatedCsv);
+
+  res.json({ success: true });
+});
+
+// ====================
+// 3. Static files (MUST come after API routes)
+// ====================
+
+app.use(express.static(__dirname));
+
+// Catch-all route for SPA
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
+});
+
+// ====================
+// 4. Helper functions
+// ====================
+
+function isAdminIP(req) {
+  const adminIps = (process.env.ADMIN_IPS || "")
+    .split(",")
+    .map(ip => ip.trim());
+
+  const requestIp =
+    req.headers["x-forwarded-for"]?.split(",")[0] ||
+    req.socket.remoteAddress;
+
+  return adminIps.includes(requestIp);
+}
+
+let cachedToken = null;
+let tokenExpiresAt = 0;
+
+async function getAccessToken() {
+  const now = Date.now();
+  if (cachedToken && now < tokenExpiresAt) {
+    return cachedToken;
+  }
+
+  const tokenUrl = `https://login.microsoftonline.com/${process.env.TENANT_ID}/oauth2/v2.0/token`;
+  const params = new URLSearchParams();
+  params.append("grant_type", "client_credentials");
+  params.append("client_id", process.env.CLIENT_ID);
+  params.append("client_secret", process.env.CLIENT_SECRET);
+  params.append("scope", "https://graph.microsoft.com/.default");
+
+  const response = await axios.post(tokenUrl, params.toString(), {
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+  });
+
+  cachedToken = response.data.access_token;
+  tokenExpiresAt = now + (response.data.expires_in - 60) * 1000;
+  return cachedToken;
+}
+
+async function getMostRecentFile(folderPath, accessToken) {
+  let files = [];
+  let url = `https://graph.microsoft.com/v1.0/drives/${process.env.SHAREPOINT_DRIVE_ID}/root:/${encodeURIComponent(folderPath)}:/children`;
+
+  while (url) {
+    const res = await axios.get(url, {
+      headers: { Authorization: `Bearer ${accessToken}` }
+    });
+    files.push(...res.data.value);
+    url = res.data["@odata.nextLink"];
+  }
+
+  const onlyFiles = files.filter(item => item.file);
+  if (onlyFiles.length === 0) {
+    throw new Error("No files found in the folder.");
+  }
+
+  onlyFiles.sort((a, b) => new Date(b.lastModifiedDateTime) - new Date(a.lastModifiedDateTime));
+  return onlyFiles[0];
+}
+
 async function getAllImages(folderPath, accessToken) {
   let files = [];
   let url = `https://graph.microsoft.com/v1.0/drives/${process.env.SHAREPOINT_DRIVE_ID}/root:/${encodeURIComponent(folderPath)}:/children`;
@@ -226,7 +239,6 @@ async function getAllImages(folderPath, accessToken) {
     const res = await axios.get(url, {
       headers: { Authorization: `Bearer ${accessToken}` }
     });
-
     files.push(...res.data.value);
     url = res.data["@odata.nextLink"];
   }
@@ -236,36 +248,12 @@ async function getAllImages(folderPath, accessToken) {
     .sort((a, b) => new Date(b.lastModifiedDateTime) - new Date(a.lastModifiedDateTime));
 }
 
+// ====================
+// 5. Start server
+// ====================
 
-app.get("/api/sharepoint/pictures", async (req, res) => {
-  try {
-    const accessToken = await getAccessToken(); // keep your existing token logic
-
-    // Full folder path in SharePoint - corrected path from user's URL
-    const folderPath = "BY Observer/BYSO Files/Pictures";
-
-    // Fetch all files in folder
-    const files = await getAllImages(folderPath, accessToken);
-
-    if (!files || files.length === 0) {
-      return res.status(404).json({ error: "No images found in SharePoint folder." });
-    }
-
-    // Map to name + download URL
-    const imageUrls = files.map(file => ({
-      name: file.name,
-      url: file["@microsoft.graph.downloadUrl"]
-    }));
-
-    res.json(imageUrls);
-  } catch (err) {
-    console.error("❌ Error fetching images:", err.message);
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
