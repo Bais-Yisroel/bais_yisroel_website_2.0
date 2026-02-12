@@ -1,24 +1,43 @@
-# TODO - Navbar & Schedule Fixes
+# TODO - Layout & Mobile Fixes
 
-## Navbar Fixes
-- [x] Update index.html - Fix navbar order, add Programs dropdown
-- [x] Update community.html - Fix navbar order, remove Information dropdown
-- [x] Update information.html - Fix navbar order, remove Information dropdown
-- [x] Update dvar.html - Fix navbar order, remove Information dropdown
-- [x] Update halachos.html - Fix navbar order, remove Information dropdown
-- [x] Update subscribe.html - Fix navbar order, remove Information dropdown
-- [x] Update school.html - Fix navbar order, add Programs dropdown
+## Completed Changes
 
-## Schedule Layout Fix
-- [x] Update styles.css - Adjust .schedule-details and .week-schedule sizing
+### 1. Footer Position
+- Already configured correctly with flexbox on body (min-height: 100vh)
+- No changes needed
 
-## Verification
-- [x] Verify navbar order is correct
-- [x] Verify Education toggle works (click, not hover)
-- [x] Verify Information links to its page
-- [x] Verify Programs dropdown works
-- [x] Verify schedule sizing is balanced
+### 2. Mobile Navbar (slide from LEFT) ✓
+- Changed `.nav-menu` from `right: 0` to `left: 0`
+- Changed `transform: translateX(100%)` to `transform: translateX(-100%)`
+- Updated box-shadow from `-5px` to `5px`
 
-## Commit
-- [x] Committed with message: "Fix navbar order, restore click functionality, and rebalance schedule sizing"
+### 3. Mobile Button Position ✓
+- Added `display: flex; flex-direction: column;` to `.week-schedule`
+- Added `.schedule-details { flex: none; }`
+- Added `.schedule-buttons { order: 99; }` to push buttons below times
+
+### 4. BYSO Download Functionality ✓
+- Removed "Download Shabbos Observer" button from index.html
+- Added `nav-button-byso` class and `data-folder="BYSO"` to BYSO nav item (all 7 HTML files)
+- Added click handler in navbar.js to trigger download
+- Uses existing script.js download logic
+
+### 5. Tightened Times Spacing ✓
+- Reduced `.schedule-details p` margin from `0.6rem` to `0.3rem`
+- Mobile: reduced from `0.5rem` to `0.25rem`
+
+## Files Modified
+- index.html
+- community.html
+- information.html
+- dvar.html
+- halachos.html
+- subscribe.html
+- school.html
+- styles.css
+- mobile.css
+- navbar.js
+
+## Committed
+- [main c5ebb88] Fix footer position, mobile nav layout, relocate buttons, integrate BYSO download, and tighten times spacing
 
