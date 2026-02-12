@@ -94,8 +94,10 @@ document.addEventListener("DOMContentLoaded", function () {
             if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`);
 
             const json = await response.json();
+            console.log("API Response:", JSON.stringify(json).substring(0, 500));
 
-            if (json.status === "success" && json.data.length > 0) {
+            // API returns { data: [{ status: "success", ... }] }
+            if (json.data && json.data.length > 0 && json.data[0].status === "success") {
                 const zmanim = json.data[0];
 
                 const zmanimMapping = {
