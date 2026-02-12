@@ -143,6 +143,13 @@
         color: white;
     }
     
+    /* BYSO button on mobile */
+    .nav-button-byso {
+        background: transparent;
+        border: none;
+        cursor: pointer;
+    }
+    
     /* Mobile Dropdown */
     .nav-item.dropdown {
         display: flex;

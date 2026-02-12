@@ -109,33 +109,6 @@ document.addEventListener('DOMContentLoaded', function() {
         link.addEventListener('click', closeMenu);
     });
     
-    // Handle BYSO download functionality
-    const bysoButton = document.querySelector('.nav-button-byso');
-    if (bysoButton) {
-        bysoButton.addEventListener('click', function(e) {
-            const folder = this.getAttribute('data-folder');
-            if (folder) {
-                // Create a hidden button with data-folder attribute and click it
-                // This triggers the download handler in script.js
-                const hiddenBtn = document.createElement('button');
-                hiddenBtn.setAttribute('data-folder', folder);
-                hiddenBtn.style.display = 'none';
-                document.body.appendChild(hiddenBtn);
-                
-                // Trigger click to start download
-                hiddenBtn.click();
-                
-                // Remove the hidden button
-                document.body.removeChild(hiddenBtn);
-                
-                // Close mobile menu if open
-                if (window.innerWidth <= 768 && navMenu && navMenu.classList.contains('active')) {
-                    closeMenu();
-                }
-            }
-        });
-    }
-    
     // Handle back button functionality (if present)
     const backButton = document.getElementById('back-button');
     if (backButton) {
