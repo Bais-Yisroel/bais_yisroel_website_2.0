@@ -21,28 +21,26 @@
 
             <ul class="nav-menu">
                 <li><a href="index.html" class="nav-button">Home</a></li>
-                <li><a href="community.html" class="nav-button">About Us</a></li>
-                <li><a href="#" class="nav-button nav-button-dropdown nav-button-education" data-toggle="education-dropdown">
-                    Education <span class="arrow">&#9662;</span>
-                </a>
+                <li><a href="staff.html" class="nav-button">About Us</a></li>
+                <li class="nav-item dropdown">
+                    <a href="#" 
+                    class="nav-button nav-button-dropdown nav-button-education" 
+                    data-toggle="education-dropdown">
+                        Education <span class="arrow">&#9662;</span>
+                    </a>
+
                     <ul class="dropdown-menu dropdown-education" id="education-dropdown">
                         <li><a href="halachos.html" class="nav-button">Halacha</a></li>
                         <li><a href="school.html" class="nav-button">School</a></li>
                         <li><a href="dvar.html" class="nav-button">Dvar Torah</a></li>
                     </ul>
                 </li>
-                <li><a href="#" class="nav-button nav-button-dropdown nav-button-programs" data-toggle="programs-dropdown">
-                    Programs <span class="arrow">&#9662;</span>
-                </a>
-                    <ul class="dropdown-menu dropdown-programs" id="programs-dropdown">
-                        <li><a href="#" class="nav-button">Camp Achim Jr</a></li>
-                        <li><a href="#" class="nav-button">Camp Achim Sr</a></li>
-                        <li><a href="#" class="nav-button">Camp Ashira</a></li>
-                    </ul>
-                </li>
+
+                <li><a href="programs.html" class="nav-button">Classes & Programs</a></li>
+
                 <li><a href="community.html" class="nav-button">Community</a></li>
                 <li><a href="information.html" class="nav-button">Information</a></li>
-                <li><button id="byso" class="nav-button nav-button-byso" data-folder="BYSO">BYSO</button></li>
+                <button id="byso" class="nav-button nav-button-byso" data-folder="BYSO">BYSO</button>
                 <li><a href="subscribe.html" class="nav-button"> Subscribe</a></li>
                 <li><a href="https://members.baisyisroel.org/payment" class="nav-button nav-button-donate">Donate</a></li>
             </ul>
@@ -57,31 +55,31 @@
                 <form class="ctct-form-custom" id="ctct_form_0" autocomplete="on" data-qe-id="form-data">
                     <div id="email_address_field_0" class="ctct-form-field">
                         <label for="email_address_0" class="ctct-form-label ctct-form-required">Email</label>
-                        <input id="email_address_0" type="email" name="email_address" maxlength="80" class="ctct-form-element">
+                        <input id="email_address_0" type="email" name="email_address" maxlength="80" class="ctct-form-element" required>
                     </div>
                     <div id="first_name_field_0" class="ctct-form-field">
-                        <label for="first_name_0" class="ctct-form-label">First Name</label>
-                        <input id="first_name_0" type="text" name="first_name" maxlength="50" class="ctct-form-element">
+                        <label for="first_name_0" class="ctct-form-label ctct-form-required">First Name</label>
+                        <input id="first_name_0" type="text" name="first_name" maxlength="50" class="ctct-form-element" required>
                     </div>
                     <div id="last_name_field_0" class="ctct-form-field">
-                        <label for="last_name_0" class="ctct-form-label">Last Name</label>
-                        <input id="last_name_0" type="text" name="last_name" maxlength="50" class="ctct-form-element">
+                        <label for="last_name_0" class="ctct-form-label ctct-form-required">Last Name</label>
+                        <input id="last_name_0" type="text" name="last_name" maxlength="50" class="ctct-form-element" required>
                     </div>
                     <div id="street_field_0" class="ctct-form-field">
-                        <label for="street_0" class="ctct-form-label">Street</label>
-                        <input id="street_0" type="text" name="street" maxlength="255" class="ctct-form-element">
+                        <label for="street_0" class="ctct-form-label ctct-form-required">Street</label>
+                        <input id="street_0" type="text" name="street" maxlength="255" class="ctct-form-element" required>
                     </div>
                     <div id="city_field_0" class="ctct-form-field">
-                        <label for="city_0" class="ctct-form-label">City</label>
-                        <input id="city_0" type="text" name="city" maxlength="50" class="ctct-form-element">
+                        <label for="city_0" class="ctct-form-label ctct-form-required">City</label>
+                        <input id="city_0" type="text" name="city" maxlength="50" class="ctct-form-element" required>
                     </div>
                     <div id="state_field_0" class="ctct-form-field">
-                        <label for="state_0" class="ctct-form-label">State/Province</label>
-                        <input id="state_0" type="text" name="state" maxlength="50" class="ctct-form-element">
+                        <label for="state_0" class="ctct-form-label ctct-form-required">State/Province</label>
+                        <input id="state_0" type="text" name="state" maxlength="50" class="ctct-form-element" required>
                     </div>
                     <div id="postal_code_field_0" class="ctct-form-field">
-                        <label for="postal_code_0" class="ctct-form-label">Postal Code</label>
-                        <input id="postal_code_0" type="text" name="postal_code" maxlength="50" class="ctct-form-element">
+                        <label for="postal_code_0" class="ctct-form-label ctct-form-required">Postal Code</label>
+                        <input id="postal_code_0" type="text" name="postal_code" maxlength="50" class="ctct-form-element" required>
                     </div>
                     <div id="gdpr_text">
                         <p class="permission">By submitting this form, you are consenting to receive marketing emails from: Bais Yisroel, 4221 Sunset Blvd, Minneapolis, MN, 55416, US, http://www.baisyisroel.org. You can revoke your consent to receive emails at any time by using the SafeUnsubscribe&reg; link, found at the bottom of every email.
@@ -107,6 +105,9 @@
             var email = document.getElementById('email_address_0');
             var firstName = document.getElementById('first_name_0');
             var lastName = document.getElementById('last_name_0');
+            var street = document.getElementById('street_0');
+            var city = document.getElementById('city_0');
+            var state = document.getElementById('state_0');
             var postalCode = document.getElementById('postal_code_0');
             var submitBtn = form.querySelector('button[type="submit"]');
         
@@ -114,9 +115,12 @@
                 var isEmailValid = email.validity.valid;
                 var isFirstNameFilled = firstName.value.trim() !== '';
                 var isLastNameFilled = lastName.value.trim() !== '';
+                var isStreetFilled = street.value.trim() !== '';
+                var isCityFilled = city.value.trim() !== '';
+                var isStateFilled = state.value.trim() !== '';
                 var isPostalCodeFilled = postalCode.value.trim() !== '';
         
-                if (isEmailValid && isFirstNameFilled && isLastNameFilled && isPostalCodeFilled) {
+                if (isEmailValid && isFirstNameFilled && isLastNameFilled && isStreetFilled && isCityFilled && isStateFilled && isPostalCodeFilled) {
                     submitBtn.disabled = false;
                 } else {
                     submitBtn.disabled = true;
@@ -124,7 +128,7 @@
             }
         
             // Validate on input changes
-            [email, firstName, lastName, postalCode].forEach(function(input) {
+            [email, firstName, lastName, street, city, state, postalCode].forEach(function(input) {
                 input.addEventListener('input', validateForm);
             });
         });

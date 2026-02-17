@@ -317,7 +317,7 @@ body {
 .halachos,
 .shabbos,
 .subscribe-form {
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
 }
 
 .about-box h2,
@@ -329,6 +329,14 @@ body {
 .shabbos h2 {
     color: #415A77;
     margin-bottom: 1rem;
+}
+
+.about-box p,
+.visitors p,
+.community p,
+.info p {
+    margin-bottom: 1rem;
+    line-height: 1.6;
 }
 
 /* ================= BUTTON LISTS ================= */
@@ -565,6 +573,152 @@ iframe[src*="google.com/maps"] {
     
     .dropdown-education li a {
         padding-left: 2.5rem;
+    }
+}
+
+/* ================= STAFF PAGE ================= */
+.staff-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: flex-start;
+    margin-top: 2rem;
+}
+
+.staff-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+}
+
+.staff-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.staff-photo {
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.staff-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.staff-name {
+    text-align: left;
+    margin-top: 0.5rem;
+}
+
+.staff-name h3 {
+    color: #415A77;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.staff-bio {
+    margin-top: 0;
+    text-align: left;
+    flex: 1;
+}
+
+.staff-bio p {
+    color: #666;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* ================= MAP CONTAINER ================= */
+.map-container {
+    margin-top: 1.5rem;
+    max-width: 100%;
+}
+
+/* ================= TWO COLUMN LAYOUT ================= */
+.two-column-sections {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.two-column-sections .visitors,
+.two-column-sections .community {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+/* ================= BUTTON LIST ================= */
+.button-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.button-list .link-style {
+    margin: 0;
+}
+
+/* Mobile responsive */
+@media screen and (max-width: 768px) {
+    .two-column-sections {
+        flex-direction: column;
+    }
+}
+
+/* ================= CARD GRID ================= */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    background: #f8f9fa;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.card-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.card .link-style {
+    width: 100%;
+    text-align: center;
+    border-radius: 0;
+    padding: 15px 20px;
+}
+
+/* Tablet: 2 columns */
+@media screen and (max-width: 1024px) {
+    .card-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Mobile: 1 column */
+@media screen and (max-width: 600px) {
+    .card-grid {
+        grid-template-columns: 1fr;
     }
 }
 

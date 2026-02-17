@@ -21,28 +21,26 @@
 
             <ul class="nav-menu">
                 <li><a href="index.html" class="nav-button">Home</a></li>
-                <li><a href="community.html" class="nav-button">About Us</a></li>
-                <li><a href="#" class="nav-button nav-button-dropdown nav-button-education" data-toggle="education-dropdown">
-                    Education <span class="arrow">&#9662;</span>
-                </a>
+                <li><a href="staff.html" class="nav-button">About Us</a></li>
+                <li class="nav-item dropdown">
+                    <a href="#" 
+                    class="nav-button nav-button-dropdown nav-button-education" 
+                    data-toggle="education-dropdown">
+                        Education <span class="arrow">&#9662;</span>
+                    </a>
+
                     <ul class="dropdown-menu dropdown-education" id="education-dropdown">
                         <li><a href="halachos.html" class="nav-button">Halacha</a></li>
                         <li><a href="school.html" class="nav-button">School</a></li>
                         <li><a href="dvar.html" class="nav-button">Dvar Torah</a></li>
                     </ul>
                 </li>
-                <li><a href="#" class="nav-button nav-button-dropdown nav-button-programs" data-toggle="programs-dropdown">
-                    Programs <span class="arrow">&#9662;</span>
-                </a>
-                    <ul class="dropdown-menu dropdown-programs" id="programs-dropdown">
-                        <li><a href="#" class="nav-button">Camp Achim Jr</a></li>
-                        <li><a href="#" class="nav-button">Camp Achim Sr</a></li>
-                        <li><a href="#" class="nav-button">Camp Ashira</a></li>
-                    </ul>
-                </li>
+
+                <li><a href="programs.html" class="nav-button">Classes & Programs</a></li>
+
                 <li><a href="community.html" class="nav-button">Community</a></li>
                 <li><a href="information.html" class="nav-button">Information</a></li>
-                <li><button id="byso" class="nav-button nav-button-byso" data-folder="BYSO">BYSO</button></li>
+                <button id="byso" class="nav-button nav-button-byso" data-folder="BYSO">BYSO</button>
                 <li><a href="subscribe.html" class="nav-button"> Subscribe</a></li>
                 <li><a href="https://members.baisyisroel.org/payment" class="nav-button nav-button-donate">Donate</a></li>
             </ul>
@@ -51,7 +49,7 @@
 
     <div class="outer-container">
         <div class="separate-community">
-            <section class="about-box">
+            <!-- <section class="about-box">
                 <h2>About: Congregation Bais Yisroel</h2>
                 <p>
                     Our shul provides an opportunity for every Jew to grow closer to Hashem (G-D) and His Torah. 
@@ -59,58 +57,55 @@
                     This wisdom adds a new dimension of success, understanding, and purpose to each moment and every detail of life. 
                     Bais Yisroel offers boys' and girls' Orthodox youth groups for grades 1-8.
                 </p>
-            </section>
+            </section> -->
         
             <section class="visitors">
                 <h2>Visitors</h2>
-                <section class="visitors-buttons">
-                    <ul>
-                        <li><button id="visitor" class="link-style" data-folder="New Visitor">Visitor Information</button></li>
-                        <li>
-                            <button
-                                type="button"
-                                class="link-style"
-                                onclick="window.open('https://mnkosher.org', '_blank', 'noopener')"
-                            >Minnesota Kosher</button>
-                        </li>
-                        <li><button id="eiruv" class="link-style" data-folder="Eiruv">Eiruv Map</button></li>      
-                        <li>
-                            <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1207.9731460219527!2d-93.3320946722439!3d44.949703118255975!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1766696632566!5m2!1sen!2sus"
-                                width="600"
-                                height="450"
-                                style="border:0;"
-                                allowfullscreen
-                                loading="lazy"
-                                referrerpolicy="no-referrer-when-downgrade"
-                            ></iframe>
-                        </li>
-                    </ul>
-                    <div id="spinner" style="
-                        display:none;
-                        position:fixed;
-                        top:50%;
-                        left:50%;
-                        transform:translate(-50%, -50%);
-                        z-index:9999;
-                        background-color: rgba(255, 255, 255, 0.8);
-                        padding: 20px;
-                        border-radius: 8px;">
-                        <img src="images/spinny.webp" alt="Loading..." style="width:100px; height:auto;" />
-                    </div>
-                </section>
+                <div class="card-grid">
+                    <a href="#" class="card" data-folder="New Visitor">
+                        <img src="images/Bais-Yisroel-logo.png" alt="New Visitor" class="card-image">
+                        <button id="visitor" class="link-style" data-folder="New Visitor">New Visitor</button>
+                    </a>
+                    <a href="https://mnkosher.org" target="_blank" rel="noopener" class="card">
+                        <img src="images/Bais-Yisroel-logo.png" alt="Minnesota Kosher" class="card-image">
+                        <button type="button" class="link-style">Minnesota Kosher</button>
+                    </a>
+                    <a href="#" class="card" data-folder="Eiruv">
+                        <img src="images/Bais-Yisroel-logo.png" alt="Eiruv Map" class="card-image">
+                        <button class="link-style">Eiruv Map</button>
+                    </a>
+                </div>
             </section>
         
             <section class="community">
                 <h2>Community</h2>
-                <section class="community-buttons">
-                    <ul>
-                        <li><button id="tehillim" class="link-style" data-folder="Tehillim">Download Tehillim List</button></li>
-                        <li><button id="bikurcholim" class="link-style" data-folder="Bikur Cholim">Bikur Cholim</button></li>
-                        <li><button id="healthcarehalacha" class="link-style" data-folder="Health Care Halacha">Health Care Halacha</button></li>
-                        <li><button id="gemach" class="link-style" data-folder="Gemach">Gemach</button></li>
-                    </ul>
-                </section>
+                <div class="card-grid">
+                    <a href="#" class="card" data-folder="Tehillim">
+                        <img src="images/Bais-Yisroel-logo.png" alt="Download Tehillim List" class="card-image">
+                        <button id="tehillim" class="link-style" data-folder="Tehillim">Download Tehillim</button>
+
+                    </a>
+                    <a href="#" class="card" data-folder="Bikur Cholim">
+                        <img src="images/Bais-Yisroel-logo.png" alt="Bikur Cholim" class="card-image">
+                        <button id="bikurcholim" class="link-style" data-folder="Bikur Cholim">Bikur Cholim</button>
+                    </a>
+                    <a href="#" class="card" data-folder="Health Care Halacha">
+                        <img src="images/Bais-Yisroel-logo.png" alt="Health Care Halacha" class="card-image">
+                        <button id="halacha" class="link-style" data-folder="Health Care Halacha">Heal Care Halacha</button>
+                    </a>
+                    <a href="#" class="card" data-folder="Gemach">
+                        <img src="images/Bais-Yisroel-logo.png" alt="Gemach" class="card-image">
+                        <button id="gemach" class="link-style" data-folder="Gemach">Download Gemach</button>
+                    </a>
+                    <a href="#" class="card" data-folder="Sponsor">
+                        <img src="images/Bais-Yisroel-logo.png" alt="Sponsor" class="card-image">
+                        <button id="sponsor" class="link-style" data-folder="Sponsor">Sponsorship Opportunities</button>
+                    </a>
+                    <a href="camps.html" class="card" data-folder="Camps">
+                        <img src="images/Bais-Yisroel-logo.png" alt="Camps" class="card-image">
+                        <button id="camps" class="link-style" data-folder="Camps">Camps</button>
+                    </a>
+                </div>
             </section>  
         </div>
     </div>
