@@ -5,20 +5,26 @@
     /* ================= BASE LAYOUT ================= */
     html, body {
         overflow-x: hidden;
+        height: 100%;
+        margin: 0;
     }
     
     body {
         font-size: 14px;
+        display: flex;
+        flex-direction: column;
     }
     
     .outer-container {
         width: 95%;
-        padding-top: 80px;
+        padding-top: 150px;
+        flex: 1;
+
     }
     
     /* ================= HEADER ================= */
     .site-header {
-        padding: 0.5rem 1rem;
+        padding: 0.25rem 0.5rem;
         height: auto;
         flex-wrap: wrap;
     }
@@ -150,71 +156,8 @@
         cursor: pointer;
     }
     
-    /* Mobile Dropdown */
-    .nav-item.dropdown {
-        display: flex;
-        flex-direction: column;
-    }
-    
-    .nav-button-dropdown {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        color: white;
-        font-size: 1.1rem;
-        padding: 1rem 1.5rem;
-        width: 100%;
-        background: transparent;
-        border: none;
-        border-radius: 0;
-    }
-    
-    .nav-button-dropdown:hover {
-        background-color: #0D1B2A;
-        color: white;
-    }
-    
-    .nav-button-dropdown .arrow {
-        transition: transform 0.3s ease;
-    }
-    
-    .nav-item.dropdown.open .nav-button-dropdown .arrow {
-        transform: rotate(180deg);
-    }
-    
-    .dropdown-menu {
-        position: static;
-        transform: none;
-        width: 100%;
-        background-color: rgba(0, 0, 0, 0.2);
-        box-shadow: none;
-        border-radius: 0;
-        display: none;
-        padding: 0;
-        opacity: 1;
-    }
-    
-    .dropdown-menu.show {
-        display: block;
-    }
-    
-    .dropdown-menu li {
-        border-bottom: none;
-    }
-    
-    .dropdown-menu li a {
-        color: white;
-        font-size: 1rem;
-        padding: 0.9rem 2.5rem;
-        text-align: left;
-    }
-    
-    .dropdown-menu li a:hover {
-        background-color: #0D1B2A;
-        color: white;
-    }
-    
     /* Overlay when menu is open */
+
     .menu-overlay {
         position: fixed;
         top: 0;
@@ -400,7 +343,7 @@
 /* ================= EXTRA SMALL SCREENS ================= */
 @media screen and (max-width: 480px) {
     .site-header {
-        padding: 0.5rem 0.75rem;
+        padding: 0.25rem 0.5rem;
     }
     
     .logo img {
@@ -432,6 +375,39 @@
     
     .schedule-details p {
         font-size: 0.85rem;
+    }
+}
+
+/* ================= EDUCATION DROPDOWN MOBILE ================= */
+@media screen and (max-width: 768px) {
+    ul.dropdown-education {
+        position: static;
+        max-height: none;
+        opacity: 1;
+        background-color: transparent !important;
+        box-shadow: none;
+        padding: 0;
+        margin: 0;
+        display: none;
+    }
+    
+    ul.dropdown-education.show {
+        display: block;
+        max-height: none;
+    }
+    
+    li.nav-item.dropdown.open > ul.dropdown-education {
+        display: block;
+    }
+    
+    ul.dropdown-education li {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    ul.dropdown-education li a.nav-button {
+        padding-left: 2rem;
+        font-size: 1rem;
+        color: #ffffff !important;
     }
 }
 
