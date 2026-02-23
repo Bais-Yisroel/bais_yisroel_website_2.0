@@ -309,12 +309,23 @@ function extractBearer(req) {
   return m?.[1] || null;
 }
 
+// Prayer time override: requires Firebase ID token in body.token or Authorization: Bearer <token>
 app.post("/api/admin/prayer-time", async (req, res) => {
   try {
-    const token = req.body?.token || extractBearer(req);
-    if (!token) return res.status(401).json({ error: "Missing Firebase token" });
+    const firebaseToken = (req.body?.token || extractBearer(req))?.trim();
+    if (!firebaseToken) {
+      return res.status(401).json({ error: "Missing Firebase ID token. Send in body.token or Authorization: Bearer <token>." });
+    }
 
-    const decoded = await admin.auth().verifyIdToken(token);
+    let decoded;
+    try {
+      decoded = await admin.auth().verifyIdToken(firebaseToken);
+    } catch (authErr) {
+      return res.status(401).json({
+        error: "Invalid or expired Firebase token.",
+        detail: authErr.code === "auth/id-token-expired" ? "Token expired." : "Token verification failed.",
+      });
+    }
 
     // Optional: restrict to specific admin email(s)
     const adminEmails = (process.env.ADMIN_EMAILS || "")

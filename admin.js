@@ -4,7 +4,7 @@ import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/fi
 
 // Cloud Function endpoint that accepts payload: { date, prayer_type, time, token }
 const CLOUD_FUNCTION_URL =
-  "https://us-central1-bais-website.cloudfunctions.net/bais_shul_times";
+  "https://times-overrighter-437164593673.europe-west1.run.app";
 
 function normalizeTime(t) {
   // Accept "HH:MM" or "HH:MM:SS" and normalize to "HH:MM:SS"
