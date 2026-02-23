@@ -7,6 +7,7 @@
 
 html, body {
     height: 100%;
+    margin: 0;
 }
 
 body {
@@ -110,55 +111,6 @@ body {
     color: white;
 }
 
-/* Dropdown trigger */
-.nav-button-dropdown {
-    cursor: pointer;
-}
-
-.nav-button-dropdown .arrow {
-    margin-left: 5px;
-    transition: transform 0.3s ease;
-}
-
-/* Dropdown menu */
-.dropdown-menu {
-    list-style: none;
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: white;
-    min-width: 180px;
-    z-index: 1000;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-    display: none;
-    padding: 0.5rem 0;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.nav-item.dropdown:hover .dropdown-menu,
-.nav-item.dropdown.open .dropdown-menu {
-    display: block;
-    opacity: 1;
-}
-
-.dropdown-menu li a {
-    padding: 0.6rem 1.2rem;
-    display: block;
-    color: #415A77;
-    font-size: 0.9rem;
-    text-decoration: none;
-    transition: all 0.2s;
-    text-align: center;
-}
-
-.dropdown-menu li a:hover {
-    background-color: #0D1B2A;
-    color: white;
-}
-
 /* Mobile elements - hidden on desktop */
 .menu-icon-container,
 .menu-icon,
@@ -167,6 +119,11 @@ body {
     display: none !important;
 }
 
+.nav-item.dropdown {
+    position: relative;
+}
+
+
 /* ================= WELCOME SECTION ================= */
 .welcome-section {
     padding-left: 1rem;
@@ -174,7 +131,6 @@ body {
     align-items: stretch;
     gap: 2rem;
     max-width: 1200px;
-    max-height: 700px;
     margin: 0 auto;
 }
 
@@ -536,47 +492,14 @@ iframe[src*="google.com/maps"] {
         padding: 0.6rem 1rem;
         font-size: 0.85rem;
     }
-}
 
-/* ================= EDUCATION DROPDOWN (Click Toggle) ================= */
-.nav-button-education {
-    cursor: pointer;
-}
-
-/* Desktop: Click to toggle, not hover */
-@media screen and (min-width: 769px) {
-    .nav-item.dropdown .dropdown-menu {
-        pointer-events: none;
-    }
-    
-    .nav-item.dropdown.open .dropdown-menu {
-        pointer-events: auto;
-    }
-}
-
-/* Mobile: Education dropdown within hamburger menu */
-@media screen and (max-width: 768px) {
-    .dropdown-education {
+    .dropdown-menu:not(.dropdown-education) {
         position: static;
-        transform: none;
-        width: 100%;
-        background-color: rgba(0, 0, 0, 0.15);
-        box-shadow: none;
-        border-radius: 0;
-        display: none;
-        opacity: 1;
-    }
-    
-    .dropdown-education.show {
-        display: block;
-    }
-    
-    .dropdown-education li a {
-        padding-left: 2.5rem;
     }
 }
 
 /* ================= STAFF PAGE ================= */
+
 .staff-container {
     display: flex;
     flex-direction: column;
@@ -701,6 +624,27 @@ iframe[src*="google.com/maps"] {
     object-fit: cover;
 }
 
+/* School page - logos fit inside card without cropping */
+.school-card-grid .card-image {
+    object-fit: contain;
+    background-color: #f8f9fa;
+}
+
+/* Community page - logos fit inside card without cropping */
+.separate-community .card-image {
+    object-fit: contain;
+    background-color: #f8f9fa;
+}
+
+/* NCSY card - black background for logo area */
+.card-bytc .card-image {
+    background-color: black;
+}
+
+.card-ncsy .card-image {
+    background-color: white;
+}
+
 .card .link-style {
     width: 100%;
     text-align: center;
@@ -746,6 +690,24 @@ iframe[src*="google.com/maps"] {
     width: 100%;
     height: 100%;
     background-color: rgba(0,0,0,0.5);
+}
+/* ================= EDUCATION DROPDOWN - CLICK-BASED ================= */
+ul.dropdown-education {
+    max-height: 0;
+    overflow: hidden;
+    background-color: #f8f9fa !important;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 200px;
+    border-radius: 5px;
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    opacity: 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    z-index: 1001;
 }
 
 .modal-content {
@@ -935,3 +897,96 @@ iframe[src*="google.com/maps"] {
 .admin-status-text[data-kind="error"] {
     color: #c62828;
 }
+ul.dropdown-education.show {
+    display: block !important;
+    max-height: 500px;
+    opacity: 1;
+    padding: 0.5rem 0;
+}
+
+ul.dropdown-education li {
+    margin: 0;
+    display: block !important;
+    width: 100%;
+}
+
+ul.dropdown-education li a.nav-button {
+    color: #0D1B2A;
+    display: block;
+    padding: 0.5rem 1rem;
+    width: 100%;
+    text-align: left;
+    border-radius: 0;
+    font-size: 0.9rem;
+    background: transparent !important;
+    font-weight: 500;
+    text-decoration: none;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* ================= EDUCATION DROPDOWN HOVER ================= */
+
+ul.dropdown-education li a.nav-button:hover {
+    background-color: #0D1B2A !important;
+    color: white !important;
+}
+
+
+a.nav-button-education.active {
+    background-color: #0D1B2A !important;
+    color: white !important;
+}
+
+/* ================= PROGRAM BOXES ================= */
+.program-boxes-container {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+.program-box {
+    flex: 1;
+    border: 3px solid #0D1B2A;
+    border-radius: 8px;
+    padding: 1.5rem;
+    min-height: 200px;
+}
+
+.program-box h3 {
+    color: #0D1B2A;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.program-box .box-content {
+    color: #666;
+    text-align: center;
+}
+
+/* Responsive: stack boxes on mobile */
+@media screen and (max-width: 768px) {
+    .program-boxes-container {
+        flex-direction: column;
+    }
+}
+
+
+/* .header-back-button {
+    display: block !important;
+    font-size: 0.85rem;
+    padding: 0.5rem 0.75rem;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #0D1B2A;
+    transition: all 0.3s ease;
+}
+
+.header-back-button:hover {
+    background-color: #415A77;
+    color: white;
+} */
