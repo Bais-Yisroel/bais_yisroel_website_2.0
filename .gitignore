@@ -163,3 +163,5 @@ cython_debug/
 
 node_modules
 .DS_Store
+diagnostic.js
+app.log

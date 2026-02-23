@@ -86,15 +86,18 @@ document.addEventListener("DOMContentLoaded", function () {
         const todayDate = today.toISOString().split('T')[0];
         const dayOfWeek = today.getDay();
 
-        const apiUrl = `https://corsproxy.io/?url=https://us-central1-bais-website.cloudfunctions.net/bais_shul_times?date=${todayDate}`;
+        // Use our backend proxy to avoid CORS issues
+        const apiUrl = `/api/shul-times?date=${todayDate}`;
 
         try {
             const response = await fetch(apiUrl);
             if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`);
 
             const json = await response.json();
+            console.log("API Response:", JSON.stringify(json).substring(0, 500));
 
-            if (json.status === "success" && json.data.length > 0) {
+            // API returns { data: [{ ... }] } without status field
+            if (json.data && json.data.length > 0) {
                 const zmanim = json.data[0];
 
                 const zmanimMapping = {
@@ -110,8 +113,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     fastEnds: convertTo12HourFormat(zmanim.fast_ends),
                     minchaErevShabbos: convertTo12HourFormat(zmanim.bais_reg_mincha_time),
                     earlyCandleLighting: convertTo12HourFormat(zmanim.zmanim_plag_hamincha_gra),
-                    // earlyShabbosMincha: convertTo12HourFormat(zmanim.zmanim_plag_hamincha_gra),
-                    // erevYomtovCandleLighting: subtractMinutes(zmanim.zmanim_sunset),
                     yomtovEnd: convertTo12HourFormat(zmanim.zmanim_tzeis_50)
                 };
 
@@ -125,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const earlyMinchaRow = document.getElementById("earlyMinchaRow");
                 const earlyMinchaSpan = document.getElementById("earlyMincha");
                 const fastStartsRow = document.getElementById("fastStartsRow");
-                const fastStartsSpan = document.getElementById("FastStarts");
+                const fastStartsSpan = document.getElementById("fastStarts");
 
                 const fastEndsRow = document.getElementById("fastEndsRow");
                 const fastEndsSpan = document.getElementById("fastEnds");
@@ -134,7 +135,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 const earlyShabbosMinchaSpan = document.getElementById("earlyShabbosMincha");
 
                 const earlyCandleLightingRow = document.getElementById("earlyCandleLightingRow");
-                const earlyCandleLightingSpan = document.getElementById("earlyCandleLighting");
 
                 const isYomTov =
                 zmanim.is_erev_yomtov ||
@@ -220,8 +220,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (spinner) spinner.style.display = "block";
   
         try {
+          // Use relative path - works on same origin (Render)
           const response = await fetch(
-            `https://bais-yisroel-website-2-0.onrender.com/api/sharepoint/recent-file?folder=${encodeURIComponent(folder)}&t=${Date.now()}`
+            `/api/sharepoint/recent-file?folder=${encodeURIComponent(folder)}&t=${Date.now()}`
           );
           if (!response.ok) throw new Error("File download failed.");
   
@@ -250,4 +251,68 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   });
-  
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const dropdowns = document.querySelectorAll(".nav-item.dropdown");
+
+  dropdowns.forEach((dropdown) => {
+    const parentLink = dropdown.querySelector(".parent-link");
+    const menu = dropdown.querySelector(".dropdown-menu");
+
+    // Initialize menu height for smooth transition
+    menu.style.height = "0px";
+
+    parentLink.addEventListener("click", (e) => {
+      const isOpen = dropdown.classList.contains("open");
+
+      if (!isOpen) {
+        e.preventDefault(); // first tap: open dropdown without navigating
+
+        // Close other dropdowns
+        dropdowns.forEach((other) => {
+          if (other !== dropdown) {
+            other.classList.remove("open");
+            const otherMenu = other.querySelector(".dropdown-menu");
+            otherMenu.style.height = "0px";
+          }
+        });
+
+        // Open this dropdown
+        dropdown.classList.add("open");
+
+        // Set height for animation
+        menu.style.height = menu.scrollHeight + "px";
+      }
+      // ELSE: already open → allow default navigation (do nothing)
+    });
+
+    // Reset height after animation
+    menu.addEventListener("transitionend", () => {
+      if (dropdown.classList.contains("open")) {
+        menu.style.height = "auto";
+      }
+    });
+  });
+});
+
+document.addEventListener("click", (e) => {
+  document.querySelectorAll(".nav-item.dropdown.open").forEach((dropdown) => {
+    if (!dropdown.contains(e.target)) {
+      dropdown.classList.remove("open");
+      dropdown.querySelector(".dropdown-menu").style.height = "0px";
+    }
+  });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const backButton = document.getElementById("back-button");
+
+  if (backButton) {
+    backButton.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.history.back();
+    });
+  }
+});
+
