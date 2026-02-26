@@ -500,32 +500,51 @@ iframe[src*="google.com/maps"] {
 
 /* ================= STAFF PAGE ================= */
 
+/* Staff container improvements */
 .staff-container {
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    align-items: flex-start;
+    align-items: stretch;
     margin-top: 2rem;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
+/* Staff card - modern card styling */
 .staff-card {
     display: flex;
-    align-items: flex-start;
-    gap: 1.5rem;
+    align-items: stretch;
+    gap: 2rem;
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    transition: all 0.25s ease;
 }
 
+.staff-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Left section - photo, name, title */
 .staff-left {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    width: 180px;
+    flex-shrink: 0;
 }
 
 .staff-photo {
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     overflow: hidden;
-    border-radius: 8px;
+    border-radius: 10px;
     flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .staff-photo img {
@@ -535,26 +554,61 @@ iframe[src*="google.com/maps"] {
 }
 
 .staff-name {
-    text-align: left;
-    margin-top: 0.5rem;
+    text-align: center;
+    margin-top: 1rem;
 }
 
 .staff-name h3 {
-    color: #415A77;
-    font-size: 1.1rem;
+    color: #0D1B2A;
+    font-size: 1.25rem;
     margin: 0;
+    font-weight: 600;
+    letter-spacing: 0.3px;
 }
 
+/* Staff title styling */
+.staff-title {
+    color: #415A77;
+    font-size: 0.9rem;
+    margin-top: 0.35rem;
+    font-weight: 500;
+}
+
+/* Right section - bio */
 .staff-bio {
     margin-top: 0;
     text-align: left;
     flex: 1;
+    display: flex;
+    align-items: center;
 }
 
 .staff-bio p {
-    color: #666;
-    font-size: 0.9rem;
+    color: #555;
+    font-size: 0.95rem;
     margin: 0;
+    line-height: 1.7;
+}
+
+/* Section heading for Administration */
+.separate-community .about-box h2 {
+    font-size: 1.7rem;
+    letter-spacing: 0.5px;
+    color: #415A77;
+    margin-bottom: 1.5rem;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 0.5rem;
+}
+
+.separate-community .about-box h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background-color: #415A77;
 }
 
 /* ================= MAP CONTAINER ================= */
@@ -732,32 +786,85 @@ a.nav-button-education.active {
     gap: 1.5rem;
     margin-top: 1rem;
     margin-bottom: 2rem;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .program-box {
     flex: 1;
-    border: 3px solid #0D1B2A;
-    border-radius: 8px;
-    padding: 1.5rem;
-    min-height: 200px;
+    background: white;
+    border: none;
+    border-radius: 12px;
+    padding: 1.75rem;
+    min-height: 180px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    transition: all 0.25s ease;
+}
+
+.program-box:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
 .program-box h3 {
     color: #0D1B2A;
     margin-bottom: 1rem;
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
 }
 
 .program-box .box-content {
     color: #666;
     text-align: center;
+    line-height: 1.6;
+    min-height: 60px;
+}
+
+/* Section heading styling for Programs page */
+.separate .info h2 {
+    font-size: 1.7rem;
+    letter-spacing: 0.5px;
+    color: #415A77;
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 0.5rem;
+}
+
+.separate .info h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background-color: #415A77;
+}
+
+.separate .info p {
+    color: #666;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    max-width: 700px;
 }
 
 /* Responsive: stack boxes on mobile */
 @media screen and (max-width: 768px) {
     .program-boxes-container {
         flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .program-box {
+        padding: 1.5rem;
+        min-height: auto;
+    }
+    
+    .program-box h3 {
+        font-size: 1.2rem;
     }
 }
 
@@ -778,3 +885,432 @@ a.nav-button-education.active {
     background-color: #415A77;
     color: white;
 } */
+
+
+/* ================= DVAR TORAH PAGE STYLES ================= */
+
+/* Page fade-in animation */
+.separate-dvar {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Content width and spacing */
+.separate-dvar {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1rem 4rem;
+}
+
+.separate-dvar .info {
+    margin-bottom: 3.5rem;
+    padding: 2rem;
+    background: white;
+}
+
+.separate-dvar .info:last-child {
+    margin-bottom: 0;
+}
+
+/* Section heading styling */
+.separate-dvar .info h2 {
+    font-size: 1.7rem;
+    letter-spacing: 0.5px;
+    color: #415A77;
+    margin-bottom: 1.5rem;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 0.5rem;
+}
+
+.separate-dvar .info h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background-color: #415A77;
+}
+
+/* Improve readability */
+.separate-dvar .info p {
+    line-height: 1.7;
+}
+
+
+/* ================= DVAR TORAH BUTTON GRID ================= */
+.dvar-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dvar-list li {
+    margin: 0;
+}
+
+.dvar-list .link-style {
+    width: 100%;
+    text-align: center;
+    padding: 1.5rem;
+    background-color: #f8f9fa;
+    color: #415A77;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dvar-list .link-style:hover {
+    background-color: #415A77;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.dvar-list .link-style.active {
+    background-color: #0D1B2A;
+    color: white;
+}
+
+
+/* ================= COLLAPSIBLE AUDIO CARDS ================= */
+.halacha-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.halacha-list > li {
+    margin-bottom: 1rem;
+}
+
+.halacha-list > li:last-child {
+    margin-bottom: 0;
+}
+
+/* Card container for each collapsible item */
+.audio-card {
+    background: white;
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-left: 4px solid #415A77;
+    transition: all 0.25s ease;
+}
+
+.audio-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Collapsible button styling */
+.audio-card .collapsible {
+    background-color: transparent;
+    color: #0D1B2A;
+    padding: 0.5rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 0;
+    width: 100%;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    transition: color 0.25s ease;
+    letter-spacing: 0.3px;
+}
+
+.audio-card .collapsible::before {
+    content: '\25B6';
+    font-size: 0.6rem;
+    margin-right: 0.6rem;
+    color: #415A77;
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+}
+
+.audio-card .collapsible:hover {
+    background-color: transparent;
+    color: #415A77;
+}
+
+.audio-card .collapsible:hover::before {
+    transform: translateX(3px);
+}
+
+/* Active state */
+.audio-card .collapsible.active {
+    background-color: transparent;
+    color: #0D1B2A;
+    border-radius: 0;
+}
+
+.audio-card .collapsible.active::before {
+    content: '\25BC';
+    font-size: 0.55rem;
+    transform: translateY(1px);
+}
+
+/* Content panel */
+.audio-card .content {
+    display: none;
+    padding: 0.75rem 0 0;
+    background: transparent;
+    border-radius: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+
+.audio-card .content.show {
+    display: block;
+}
+
+/* Spotify embed styling - tighter fit */
+.audio-card .spotify-embed,
+.audio-card .share-embed {
+    margin: 0;
+}
+
+.audio-card .spotify-embed iframe,
+.audio-card .share-embed iframe {
+    border-radius: 6px;
+    max-width: 100%;
+    height: 152px;
+}
+
+
+/* ================= MODERNIZED LINK-STYLE BUTTONS ================= */
+.link-style {
+    background-color: #415A77;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    letter-spacing: 0.4px;
+    display: inline-block;
+}
+
+.link-style:hover {
+    background-color: #0D1B2A;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.link-style.active {
+    background-color: #0D1B2A;
+    color: white;
+}
+
+
+/* ================= RESPONSIVE STYLES ================= */
+@media screen and (max-width: 768px) {
+    .separate-dvar {
+        padding: 1rem 0.5rem 3rem;
+    }
+    
+    .separate-dvar .info {
+        padding: 1.5rem 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    .separate-dvar .info h2 {
+        font-size: 1.5rem;
+    }
+    
+    /* Dvar list becomes single column */
+    .dvar-list {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .dvar-list .link-style {
+        padding: 1.25rem 1rem;
+    }
+    
+    /* Audio cards on mobile */
+    .audio-card {
+        padding: 1rem;
+    }
+    
+    .audio-card .collapsible {
+        font-size: 1rem;
+    }
+}
+
+
+/* ================= HALACHOS PAGE STYLES ================= */
+
+/* Page fade-in animation */
+.separate-halachos {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Content width and spacing */
+.separate-halachos {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1rem 4rem;
+}
+
+.separate-halachos .halachos,
+.separate-halachos .shabbos {
+    margin-bottom: 3.5rem;
+    padding: 2rem;
+    background: white;
+}
+
+.separate-halachos .halachos:last-child,
+.separate-halachos .shabbos:last-child {
+    margin-bottom: 0;
+}
+
+/* Section heading styling */
+.separate-halachos .halachos h2,
+.separate-halachos .shabbos h2 {
+    font-size: 1.7rem;
+    letter-spacing: 0.5px;
+    color: #415A77;
+    margin-bottom: 1.5rem;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 0.5rem;
+}
+
+.separate-halachos .halachos h2::after,
+.separate-halachos .shabbos h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background-color: #415A77;
+}
+
+/* Improve readability */
+.separate-halachos .halachos p,
+.separate-halachos .shabbos p {
+    line-height: 1.7;
+}
+
+/* Shabbos section subtitle */
+.separate-halachos .shabbos p {
+    color: #666;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+}
+
+
+/* ================= HALACHOS BUTTON GRID ================= */
+.separate-halachos .visitors-buttons {
+    margin-top: 1rem;
+}
+
+.separate-halachos .visitors-buttons ul,
+.separate-halachos .shabbos-dvar-buttons ul {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    justify-content: center;
+}
+
+.separate-halachos .visitors-buttons ul li,
+.separate-halachos .shabbos-dvar-buttons ul li {
+    margin: 0;
+}
+
+.separate-halachos .visitors-buttons .link-style,
+.separate-halachos .shabbos-dvar-buttons .nav-button-comm {
+    width: 100%;
+    text-align: center;
+    padding: 1.5rem;
+    background-color: #f8f9fa;
+    color: #415A77;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.separate-halachos .visitors-buttons .link-style:hover,
+.separate-halachos .shabbos-dvar-buttons .nav-button-comm:hover {
+    background-color: #415A77;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.separate-halachos .shabbos-dvar-buttons .nav-button-comm {
+    background-color: #f8f9fa;
+}
+
+
+/* ================= HALACHOS RESPONSIVE ================= */
+@media screen and (max-width: 768px) {
+    .separate-halachos {
+        padding: 1rem 0.5rem 3rem;
+    }
+    
+    .separate-halachos .halachos,
+    .separate-halachos .shabbos {
+        padding: 1.5rem 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    .separate-halachos .halachos h2,
+    .separate-halachos .shabbos h2 {
+        font-size: 1.5rem;
+    }
+    
+    /* Button grid becomes single column */
+    .separate-halachos .visitors-buttons ul,
+    .separate-halachos .shabbos-dvar-buttons ul {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .separate-halachos .visitors-buttons .link-style,
+    .separate-halachos .shabbos-dvar-buttons .nav-button-comm {
+        padding: 1.25rem 1rem;
+    }
+}
+

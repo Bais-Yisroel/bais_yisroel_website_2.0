@@ -409,5 +409,73 @@
         font-size: 1rem;
         color: #ffffff !important;
     }
+    
+    /* ================= DVAR TORAH PAGE MOBILE ================= */
+    .dvar-list {
+        grid-template-columns: 1fr;
+    }
+    
+    .dvar-list .link-style {
+        padding: 1.25rem 1rem;
+    }
+    
+    .audio-card {
+        padding: 0.75rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .audio-card .collapsible {
+        font-size: 0.95rem;
+        padding: 0.4rem 0;
+    }
+    
+    .audio-card .spotify-embed iframe,
+    .audio-card .share-embed iframe {
+        height: 140px;
+    }
+    
+    /* ================= STAFF PAGE MOBILE ================= */
+    .staff-container {
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+    }
+    
+    .staff-card {
+        flex-direction: column;
+        align-items: center;
+        padding: 1.25rem;
+        gap: 1rem;
+    }
+    
+    .staff-left {
+        width: 100%;
+    }
+    
+    .staff-photo {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .staff-name {
+        margin-top: 0.75rem;
+    }
+    
+    .staff-name h3 {
+        font-size: 1.15rem;
+    }
+    
+    .staff-title {
+        font-size: 0.85rem;
+    }
+    
+    .staff-bio {
+        text-align: center;
+        width: 100%;
+    }
+    
+    .staff-bio p {
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
 }
 
